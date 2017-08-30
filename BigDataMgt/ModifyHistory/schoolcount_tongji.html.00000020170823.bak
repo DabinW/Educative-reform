@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>各直属高校改革情况统计报表</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap3.2.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="css/font-awesome-4.2.0/css/font-awesome.min.css" type="text/css">
+    <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-local-storage.js"></script>
+    <script type="text/javascript" src="js/SampleApp.js" charset="gb2312"></script>
+    <script type="text/javascript" src="jquery-1.4.2.min.js"></script>  
+
+    <style type="text/css">
+       .middle{
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+        
+    </style>
+
+</head>
+<body>
+    <div class="all">
+      <div class="top">
+        <h2><center>各直属高校改革情况统计数据</center></h2>
+      </div>
+      <div class="middle">
+          <div class="row">
+            <table class="table table-bordered" id="table">
+              <tr><h4 style=" background-color: #B0C4DE;">高考改革</h4></tr>
+              <tr>
+                <table class="table table-bordered" id="table1">
+                  <thead>
+                    <tr>
+                          <th>地区分布</th>
+                          <th>已完成</th>
+                          <th>进行中</th>
+                          <th>未启动</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table><!-- table1 -->
+              </tr>
+              <tr><h4 style=" background-color: #B0C4DE;">综合改革方案备案</h4></tr>
+              <tr>
+                <table class="table table-bordered" id="table2">
+                  <thead>
+                    <tr>
+                        <th>地区分布</th>
+                          <th>已完成</th>
+                          <th>进行中</th>
+                          <th>未启动</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table><!-- table21 -->
+              </tr>
+           
+              <tr><h4 style="background-color: #B0C4DE;">重点事项改革</h4></tr>
+              <tr>
+                <table  class="table table-bordered" id="table3">
+                  <thead>
+                    <tr>
+                          <th>地区分布</th>
+                          <th>已完成</th>
+                          <th>进行中</th>
+                          <th>未启动</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </tr>
+            </table>
+          </div>
+        
+      </div>
+    </div>
+  
+<script type="text/javascript">
+         $.ajax({
+                                  type:"GET",
+                                  url:"api/1.0/ll/system/account/countCategoryByYear",
+                                  dataType:"json",
+                                  async:true,
+                                  success:function(data){
+                //data[0]高考改革  data[1]综合改革   data[2]重点改革
+                //data[][0]已完成   data[][1]进行中   data[][2]未完成
+                //data[][][0]中部 data[][][1]东部  data[][][2]西部
+
+                var arr1=new Array();       //定义一个一维数组
+                for(i=0;i<data.length;i++){
+                  var arr1[i]=new Array();   //在已定义的数组中再定义一个数组
+                  for(j=0;j<data[i][0].length;j++){
+                     arr1[i][j]=data[i][0][j].count;
+                  }
+                }
+
+                var arr2=new Array();
+                for(i=0;i<data.length;i++){
+                  var arr2[i]=new Array();
+                  for(j=0;j<data[i][1].length;j++){
+                     arr2[i][j]=data[i][1][j].count;
+                  }
+                }
+
+                var arr3=new Array();
+                for(i=0;i<data.length;i++){
+                  var arr3[i]=new Array();
+                  for(j=0;j<data[i][2].length;j++){
+                     arr3[i][j]=data[i][2][j].count;
+                  }
+                }
+                    $('#table1 tbody').append("<tr><td>"+"东部"+"</td><td>"+arr1[0][1]+"</td><td>"+arr2[0][1]+"</td><td>"+arr3[0][1]+"</td></tr>");
+                    $('#table1 tbody').append("<tr><td>"+"中部"+"</td><td>"+arr1[0][0]+"</td><td>"+arr2[0][0]+"</td><td>"+arr3[0][0]+"</td></tr>");
+                    $('#table1 tbody').append("<tr><td>"+"西部"+"</td><td>"+arr1[0][2]+"</td><td>"+arr2[0][2]+"</td><td>"+arr3[0][2]+"</td></tr>");
+
+                    $('#table2 tbody').append("<tr><td>"+"东部"+"</td><td>"+arr1[1][1]+"</td><td>"+arr2[1][1]+"</td><td>"+arr3[1][1]+"</td></tr>");
+                    $('#table2 tbody').append("<tr><td>"+"中部"+"</td><td>"+arr1[1][0]+"</td><td>"+arr2[1][0]+"</td><td>"+arr3[1][0]+"</td></tr>");
+                    $('#table2 tbody').append("<tr><td>"+"西部"+"</td><td>"+arr1[1][2]+"</td><td>"+arr2[1][2]+"</td><td>"+arr3[1][2]+"</td></tr>");
+
+                    $('#table3 tbody').append("<tr><td>"+"东部"+"</td><td>"+arr1[2][1]+"</td><td>"+arr2[2][1]+"</td><td>"+arr3[2][1]+"</td></tr>");
+                    $('#table3 tbody').append("<tr><td>"+"中部"+"</td><td>"+arr1[2][0]+"</td><td>"+arr2[2][0]+"</td><td>"+arr3[2][0]+"</td></tr>");
+                    $('#table3 tbody').append("<tr><td>"+"西部"+"</td><td>"+arr1[2][2]+"</td><td>"+arr2[2][2]+"</td><td>"+arr3[2][2]+"</td></tr>");
+                 
+           
+              // error:function(XMLHttpRequest, textStatus, errorThrown){
+              //   console.log(XMLHttpRequest);
+              //   console.log(textStatus);
+              //   console.log(errorThrown);
+              // }
+             }
+   });
+
+</script>
+<!-- var arr1 = new Array();
+                 for(var i=0;i<3;i++){
+                    arr1[i]=new Array(); 
+                    for(var j=0;j<3;j++){
+                        arr1[i][j]=0;
+                    }
+                 }
+                 var arr2 = new Array();
+                 for(var i=0;i<3;i++){
+                    arr2[i]=new Array(); 
+                    for(var j=0;j<3;j++){
+                        arr2[i][j]=0;
+                    }
+                 }
+                 var arr3 = new Array();
+                 for(var i=0;i<3;i++){
+                    arr3[i]=new Array(); 
+                    for(var j=0;j<3;j++){
+                        arr3[i][j]=0;
+                    }
+                 }
+                 arr1=data[0];
+                 arr2=data[1];
+                 arr3=data[2];
+                 var arr4 =[];
+                 var arr5 =[];
+                 var arr6 =[];
+                 
+                for (var i=0; i<3; i++) { 
+                    for(var j=0;j<3;j++){
+                        arr4.add(arr1[i][j]);
+                        arr5.add(arr2[i][j]);
+                        arr6.add(arr3[i][j]);
+                    }
+                }
+                var arr7=[];
+                var arr8=[];
+                var arr9=[];
+
+                for(var k=0;k<arr4.length;k++){
+                    arr7[k]=arr4[k].count||0;
+                    arr8[k]=arr5[k].count||0;
+                    arr9[k]=arr6[k].count||0;
+                 };  
+                    $('#table1 tbody').append("<tr><td>"+"东部"+"</td><td>"+data[0][0][1].count+"</td><td>"+data[0][1][1].count+"</td><td>"+data[0][2][1].count+"</td></tr>");
+                    $('#table1 tbody').append("<tr><td>"+"中部"+"</td><td>"+data[0][0][0].count+"</td><td>"+data[0][1][0].count+"</td><td>"+data[0][2][0].count+"</td></tr>");
+                    $('#table1 tbody').append("<tr><td>"+"西部"+"</td><td>"+data[0][0][2].count+"</td><td>"+data[0][1][2].count+"</td><td>"+data[0][2][2].count+"</td></tr>");
+
+                    $('#table2 tbody').append("<tr><td>"+"东部"+"</td><td>"+data[1][0][1].count+"</td><td>"+data[1][1][1].count+"</td><td>"+data[1][2][1].count+"</td></tr>");
+                    $('#table2 tbody').append("<tr><td>"+"中部"+"</td><td>"+data[1][0][0].count+"</td><td>"+data[1][1][0].count+"</td><td>"+data[1][2][0].count+"</td></tr>");
+                    $('#table2 tbody').append("<tr><td>"+"西部"+"</td><td>"+data[1][0][2].count+"</td><td>"+data[1][1][2].count+"</td><td>"+data[1][2][2].count+"</td></tr>");
+
+                    $('#table3 tbody').append("<tr><td>"+"东部"+"</td><td>"+data[2][0][1].count+"</td><td>"+data[2][1][1].count+"</td><td>"+data[2][2][1].count+"</td></tr>");
+                    $('#table3 tbody').append("<tr><td>"+"中部"+"</td><td>"+data[2][0][0].count+"</td><td>"+data[2][1][0].count+"</td><td>"+data[2][2][0].count+"</td></tr>");
+                    $('#table3 tbody').append("<tr><td>"+"西部"+"</td><td>"+data[2][0][2].count+"</td><td>"+data[2][1][2].count+"</td><td>"+data[2][2][2].count+"</td></tr>");   -->
+</body>
+</html>

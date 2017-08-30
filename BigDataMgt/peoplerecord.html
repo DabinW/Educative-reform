@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>个人履历表</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="js/lib/bootstrap3.2.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="css/font-awesome-4.2.0/css/font-awesome.min.css" type="text/css">
+    <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-local-storage.js"></script>
+    <script type="text/javascript" src="js/SampleApp.js" charset="gb2312"></script>
+    <script type="text/javascript" src="jquery-1.4.2.min.js"></script>   
+    <script type="text/javascript" src="jquery.PrintArea.js"></script>   
+    <script>
+         function printpage(){
+	        window.print();
+        }
+    </script>
+
+    <style type="text/css">
+    	#info{
+    		position: absolute;
+    		top:50px;
+    		left: 40%;
+    		margin-left:-250px;
+    	}
+    /*	#daily{
+    		position: absolute;
+    		top:300px;
+    	}*/
+    	/*#table-all{
+    		border: 1px solid transparent !important;
+    	}*/
+    </style>
+    <style media="print">
+    	 .Noprint { display: none }
+    </style>
+</head>
+<body ng-app="AssertIndexApp" >
+	<div  class="col-md-12"></div>
+
+	<div id="info">
+	    <div class="bs-callout bs-callout-default col-lg-12 "  style="font-size: 20px;">
+            <center><strong>个人履历表</strong></center>
+        </div>
+        <div style="margin-top: 30px;margin-left:10px;">
+	        <div><label class="Noprint" style="font-weight: 200">(请输入要搜索人的姓名)</label></div>
+	        <form class="bs-example bs-example-form col-lg-12  " role="form">
+		        <div class="row">
+			            <div class="Noprint col-lg-12">
+				            <div  class="input-group" style="display: inline;">
+					            <input type="text" class="form-control" style="width: 200px;" id="text1">
+					            <button class="btn btn-default" type="button" style="font-weight: bold;" onclick="stu()">搜索</button>   
+				            </div><!-- /input-group -->
+				            <button class="btn btn-primary"  type="button" style="font-weight: bold;float: right;" onclick="printpage()">打印</button> 
+			            </div><!-- /Noprint -->
+	                <div class="col-lg-12">
+		                <table  id="table-all">
+		                    <thead>
+			                    <tr>
+				                    <h4 style="background-color:#B0C4DE ">人员基本信息</h4>
+				                </tr>
+				            </thead>
+				            <tbody>
+				                <tr>
+				                    
+				                        <table class="table table-bordered" id="table1"  >
+					                        <thead>
+						                        <tr>
+							                        <th>姓名</th>
+							                        <th>性别</th>
+							                        <th>类别</th>
+							                        <th>民族</th>
+							                        <th>出生年月</th>
+							                        <th>参加工作时间</th>	
+						                        </tr>
+					                        </thead>
+					                        <tbody>
+					                        </tbody>
+				                        </table>
+				                    
+				                </tr>
+				                <tr>
+				                    
+				                        <table class="table table-bordered" id="table3"  >
+					                        <thead>
+						                        <tr>
+							                        <th>工作单位</th>
+							                        <th>部门职务</th>
+							                        <th>行政级别</th>
+							                        <th>专业</th>
+							                        <th>学位</th>
+							                        <th>职称</th>
+							                        <th>挂职借调岗位</th>
+						                        </tr>
+					                        </thead>
+					                        <tbody>
+					                        </tbody>
+				                        </table>
+				                    
+				                </tr>
+				     
+		                    </tbody>
+		            </div><!-- col-lg-12 -->
+                </div> <!-- row -->
+                <div id="daily">
+                    <table>
+		                <thead>
+		                    <tr>
+				                <h4 style="background-color:#B0C4DE ">日常工作</h4>
+				            </tr>
+				        </thead>
+				        <tbody>
+				        <tr>
+				        
+					        <table class="table table-bordered" id="table2">
+					            <thead>
+						            <tr>
+							            <th>日常业务</th>
+							            <th>具体业务</th>
+							            <th>参与人员</th>
+							            <th>地点</th>
+							            <th>开始时间</th>
+							            <th>完成时间</th>
+						            </tr>
+					            </thead>
+					            <tbody>
+					            </tbody>
+				            </table>
+				            
+				            </tr>
+				        </tbody>
+		            </table>
+	            </div>	<!-- daily -->
+	        </form>
+        </div>
+    </div>
+<script type="text/javascript">
+	  
+	var stu = function(){
+	$('#table1 tbody tr').remove();
+	$('#table2 tbody tr').remove();
+	$('#table3 tbody tr').remove();
+	var name = $('#text1').val();
+		$.ajax({
+			type:"POST",
+			url:"api/1.0/edu/system/account/getMultiMesByname",
+			data:name,
+			dataType:"json",
+			async:true,
+			success:function(data){
+
+				var arr = data.contents;
+				if (arr[0].have) {
+
+           			var birth = arr[0].birth||'无';
+            			var worktime = arr[0].time_to_work||'无';
+				var sex = arr[0].sex||'无';
+				var nationality = arr[0].nationality||'无';
+				var category = arr[0].category||'无';
+				var birth = birth||'无';
+				var timetowork = worktime||'无';
+				var workplace = arr[0].workplace||'无';
+				var department_job = arr[0].department_job||'无';
+				var administrative_ranks = arr[0].administrative_ranks||'无';
+				var major = arr[0].major||'无';
+				var degree = arr[0].degree||'无';
+				var positional_titles = arr[0].positional_titles||'无';
+				var post_attachment = arr[0].post_attachment||'无';
+				$('#table1 tbody').append("<tr><td>"+name+"</td><td>"+sex+"</td><td>"+category+"</td><td>"+nationality+"</td><td>"+birth+"</td><td>"+timetowork+"</td></tr>");
+				$('#table3 tbody').append("<tr><td>"+workplace+"</td><td>"+department_job+"</td><td>"+administrative_ranks+"</td><td>"+major+"</td><td>"+degree+"</td><td>"+positional_titles+"</td><td>"+post_attachment+"</td></tr>");
+			
+				if (arr[1].have) {
+					for(var i=1;i<=arr.length-1;i++){
+	
+				var businessname = arr[i].business_name||'无';
+				var specificbusiness = arr[i].specific_business||'无';
+				var participants = arr[i].participants||'无';
+				var site = arr[i].site||'无';
+				var starttime = arr[i].starttime||'无';
+				var finishtime = arr[i].finish_time||'无';
+				$('#table2 tbody').append("<tr><td>"+businessname+"</td><td>"+specificbusiness+"</td><td>"+participants+"</td><td>"+site+"</td><td>"+starttime+"</td><td>"+finishtime+"</td></tr>");
+				}//if (arr[1].have)
+			    }//for
+				else{
+					alert("此人没有参与日常工作");
+				}
+				}
+			
+				else{
+					alert("内部人员中没有此人信息");
+				}
+			},
+			error:function(){
+				console.log("http error");
+			}
+		})
+	};
+</script>
+</body>
+</html>

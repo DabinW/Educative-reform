@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>改革跟踪统计管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+		#thead{
+			height: 120px;
+			/*border: 1px solid #D3D3D3;*/
+		}
+		#tbody{
+			position: absolute;
+			top:122px;
+			height: 500px;			
+		}
+		#picture1{
+			position: absolute;
+			top:150px;
+			left:450px;
+			width: 200px;
+			height: 200px;
+			border: 1px solid #D3D3D3;
+
+		}
+		#picture2{
+			position: absolute;
+			top:150px;
+			left:900px;
+			width: 200px;
+			height: 200px;
+			border: 1px solid #D3D3D3;
+
+		}
+		a:link{text-decoration:none}        /*超链接状态*/
+		a:visited{text-decoration:none}    /*超链接被点击过的状态*/
+		a:hover{text-decoration:none}     /*鼠标移至超链接上方的状态*/
+		a:active{text-decoration:none}     /*鼠标点击超链接时的状态*/
+	</style>
+</head>
+
+<body ng-app="AssertIndexApp">
+<div >
+    <div  class="col-md-12">
+        <div class="bs-callout bs-callout-default">
+            <strong>改革跟踪统计管理</strong><small>
+        </div>
+        <div>
+        	<br>
+			<br>
+			<br>
+			<br>
+			<div class="row">
+				<div class="col-sm-12 col-md-12 col-lg-12">
+					<div class="col-md-offset-2 col-md-2" style="position: absolute;top: 20%">
+						<div>
+							<a href="Map2.html" target="_blank"  ><img src="images/statistics3.png">
+							<center><h4 font size="+9">各地改革信息分布图 &nbsp; &nbsp; &nbsp;</h4></center></a>
+						</div>
+					</div>
+					<div class="col-md-offset-5 col-md-2" style="position: absolute;top: 20%">
+						<div>
+							<a href="schoolcount.html" target="_blank"><img src="images/statistics4.png">
+							<center><h4 font size="+9">各直属高校改革进展情况 &nbsp; &nbsp; &nbsp;</h4></center></a>
+						</div>
+					</div>
+					<div class="col-md-offset-8 col-md-2" style="position: absolute;top: 20%;">
+						<div>
+							<a href="schoolcount_tongji.html" target="_blank"><img src="images/icon10.png">
+							<center><h4 font size="+9">各直属高校改革数据统计&nbsp; &nbsp; &nbsp;</h4></center></a>
+						</div>
+					</div>
+				</div>
+</div>
+</div>	
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

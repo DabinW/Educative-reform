@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>事务管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+
+<body ng-app="AssertIndexApp">
+
+<div ng-controller="MyWorkMgtController">
+
+    <div class="col-md-12" >
+        <div class="bs-callout bs-callout-danger"><strong>事务管理</strong><small>--管理个人事务、系统事务。</small>
+            <button class="btn btn-xs btn-success" ng-show="MyWorkTable" ng-click="ShowAddMyWorkFrom()">新增事务</button>
+            <button class="btn btn-xs btn-primary" ng-show="MyWorkFrom||MyWorkDetail" ng-click="ShowMyWorkTable()">查看事务列表</button>
+        </div>
+        <div ng-show="MyWorkTable">
+            <table datatable="" id="GetMyAllWorkTable" dt-options="GetMyAllWorkTable_dtOptions" dt-columns="GetMyAllWorkTable_dtColumns" class="row-border hover"></table>
+        </div>
+        <div ng-show="MyWorkDetail">
+            <nav class="navbar" id="MyWorkNav">
+
+                <p><span id="title">{{MyWorkInfo.wtype}}</span>
+                    <span style="float: right;"><i class="fa fw fa-clock-o"></i>开始：{{MyWorkInfo.wstarttime}}<i class="fa fw fa-clock-o"></i>完成：{{MyWorkInfo.wplanendtime}}</span>
+                </p>
+
+                <p><i class="fa fw fa-user"></i>相关人员：<span ng-repeat="m in MyWorkInfo.wperson">{{m.username}}    </span></p>
+                <p><i class="fa fw fa-file-o"></i>事务描述：{{MyWorkInfo.wdescript}}</p>
+                <nav class="navbar" id="MyWorkNav1">
+
+                <div class="box"  ng-repeat="m in MyWorkInfo.remarklist">
+
+                    <div class="col-md-8" style="display: block;line-height: 2;"><i style="color: orange;margin: 0 8px; " class="fa fw fa-inbox"></i>{{m.rcontent}} </div>
+                    <div class="col-md-4" style="text-align: right; line-height: 2;font-size: 10px;">
+                        <span  title="创建人{{m.Saver}}" style=" color: rgb(14, 89, 158);">{{m.Saver}}</span>
+                        发表于：{{m.SaveTime}} <i style="color: red; font-size: 12px;" class="fa" id="DelI" title="删除小节" ng-click="DelRemark(m._id.$oid)">[删除]</i></div>
+                <div class="col-md-12 FileBox">
+                    <div class="col-md-2" ng-repeat="f in m.filelist.filenames track by $index">
+                    <a class="img_a" title="{{f.filename}}" target="_blank">
+                        <img  ng-show="f.filetype=='image'" src="/Achievies/{{f.filepath}}" width="90" height="60" />
+                        <img  ng-show="f.filetype=='word'" src="images/word.jpg" width="65" height="60" />
+                        <img  ng-show="f.filetype=='excel'" src="images/excel.jpg" width="65" height="60" />
+                        <span style="font-size: 10px;width: 8em;text-align: center;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{f.filename}}</span>
+                    </a>
+                    </div>
+                </div>
+
+                </div>
+                </nav>
+                <p style="float: right;" class="btn-group">
+
+                    <button class="btn btn-primary btn-xs" ng-if="MyWorkInfo.wtype == '办公事务' || MyWorkInfo.wtype == '个人事务'" ng-click="ShowModify()">修改事务信息</button>
+                    <button class="btn btn-warning btn-xs" ng-click="ShowWorkMatter()">添加事务小节</button>
+                    <button class="btn btn-danger btn-xs" ng-if="MyWorkInfo.wtype == '办公事务' || MyWorkInfo.wtype == '个人事务'"  ng-click="GoEndWork()">事务结束</button>
+                </p>
+            </nav>
+        </div>
+        <div ng-show="MyWorkFrom">
+
+                <div class="ModalBox col-md-12">
+                    <div class="col-md-6">
+                        <div style="margin-bottom: 15px" class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-sitemap fa-fw"></i></span>
+                            <select  ng-model="MyWorkInfo.wtype"
+                                    class="form-control">
+                                <option value="" selected>--请选择事务类型--</option>
+                                <option value="办公事务">办公事务</option>
+                                <option value="个人事务">个人事务</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 15px;">
+                        <div
+                                isteven-multi-select
+                                selection-mode = "{{WorkInfo.wrole}}"
+                                input-model="GetALLUsers" output-model="MyWorkInfo.wperson"
+                                default-label="请选择事务办理人员（可多选）" max-height="180px"
+                                button-label="username" item-label="username depname" tick-property="Status"
+                                output-properties="userid username"
+                                >
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div  class="input-group ">
+                            <span class="input-group-addon"><i class="fa fa-lg fa-clock-o fa-fw"></i></span>
+                            <date-time-picker placeholder="事务开始时间..."  ng-model="MyWorkInfo.wstarttime"></date-time-picker>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div  class="input-group ">
+                            <span class="input-group-addon"><i class="fa fa-lg fa-clock-o fa-fw"></i></span>
+                            <date-time-picker placeholder="事务预计完成时间..."  ng-model="MyWorkInfo.wplanendtime"></date-time-picker>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <div  class="input-group ">
+                            <span class="input-group-addon"><i class="fa fa-lg fa-file-text fa-fw"></i></span>
+                            <textarea  type="text" class="form-control " ng-model="MyWorkInfo.wdescript" ng-required="true" cols="4" placeholder="事务描述"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn-success btn-md btn" ng-click="SubmitMyWorkInfo()">提交</button>
+                        <button class="btn-default btn-md btn" ng-click="ShowMyWorkTable()">取消</button>
+                    </div>
+                </div>
+
+
+        </div>
+        <div ng-show="AddWorkMatter">
+            <div class="col-md-12">
+                <div  class="input-group ">
+                    <span class="input-group-addon"><i class="fa fa-lg fa-tag fa-fw"></i></span>
+                    <textarea  class="form-control " ng-model="WorkMatterInfo.rcontent" ng-required="true" cols="3" placeholder="小节内容"></textarea>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-8"  style="margin-top: 10px;">
+              <div style="margin: 10px;" ng-repeat="m in FileUploadDialog.filebaseinfo.filenames">
+                  <div class="col-md-2">
+                      <a target="_blank" href="/Achievies/{{m.filepath}}">
+                          <img  ng-show="m.filetype=='image'" src="/Achievies/{{m.filepath}}" width="90" height="60" />
+                          <img  ng-show="f.filetype=='word'" src="images/word.jpg" width="65" height="60" />
+                          <img  ng-show="f.filetype=='excel'" src="images/excel.jpg" width="65" height="60" />
+                          <span style="  word-wrap: break-word;font-size: 10px;width: 88px;text-align: center; display: inline-block;">{{m.filename}}</span>
+                      </a>
+
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-2" style="margin-top: 5px; text-align: right;">
+                <div class="btn-group">
+                    <a class="btn btn-md btn-default"><i class="fa fa-cloud-upload"></i></a>
+                    <button class=" btn btn-md btn-primary" ng-click="uploadpicture()">上传文件</button>
+                </div>
+            </div>
+
+            <div class="col-md-2" style="margin-top: 5px;text-align: right;">
+                <button class="btn btn-md btn-success" ng-click="SubmitWorkRemark()">保存小节</button>
+                <button class="btn btn-md btn-default" ng-click="CancelWorkRemark()">取消</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

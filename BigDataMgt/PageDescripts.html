@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>测试用</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body ng-app="AssertIndexApp">
+<div ng-controller="PageDescriptsController">
+    <div  class="col-md-12">
+        <div class="bs-callout bs-callout-default">
+            <strong>页面信息管理</strong><small>--网站页面设计说明，用于设计规划使用。</small>
+        </div>
+        <div><commdatamgt dataset="dataset" options="showoption" form="CommDataEditForm" editinfo="CommDataEditInfo"></commdatamgt></div>
+        <!--<div ng-controller="CommDataMgtController">-->
+            <!--<div ng-show="pageshow.CommDataMgtTable" class="panel panel-default">-->
+                <!--<div class="panel-heading"><span class="col-md-2 ">已经登记的耗材供货列表</span>-->
+                    <!--<div class="btn-group">-->
+                        <!--<button class="btn btn-primary btn-xs" ng-click="AddCommData()">添加页面信息</button>-->
+                        <!--<button class="btn btn-success btn-xs" ng-click="exportCommDataInfo()">导出页面描述</button>-->
+                        <!--<button class="btn btn-success btn-xs" ng-click="importCommDataInfo()">导入页面描述</button>-->
+                        <!--<button class="btn btn-warning btn-xs" ng-click="showAdSearch()">高级检索</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<advancesearch ng-show="pageshow.AdSearch" as-model="CommDataAdSearchInfo"  fields="CommDataAdSearchField" submit="CommDataAdSearchGo()" reset="ResetCommDataAdSearch()"></advancesearch>-->
+                <!--<div ng-show="pageshow.CommDataTable">-->
+                    <!--<table ng-if="CommData_dtOptions!=null" datatable="" id="{{CommDataTableName}}" dt-options="CommData_dtOptions" dt-columns="CommData_dtColumns" class="row-border hover"></table>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div ng-show="pageshow.CommDataEdit" class="col-md-12 col-xs-12">-->
+                <!--<form sf-schema="CommDataEditSchema" sf-form="CommDataEditForm" sf-model="CommDataEditInfo" sf-options="{ validationMessage: { 302: '该字段不能为空!' }}"></form>-->
+            <!--</div>-->
+            <!--<div ng-show="pageshow.dataimport"><commimport as-dataset="importdataset" exit="reloadCommDataTable()"></commimport></div>-->
+        <!--</div>-->
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>考试安排</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body ng-app="AssertIndexApp">
+<div ng-controller="ExamargController">
+    <div  class="col-md-12">
+        <div class="bs-callout bs-callout-default">
+            <strong>学生考试安排</strong><small>--考试安排</small>
+        </div>
+        <div><commdatamgt dataset="dataset" options="showoption" form="CommDataEditForm" editinfo="CommDataEditInfo"></commdatamgt></div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

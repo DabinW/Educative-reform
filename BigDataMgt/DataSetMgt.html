@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>数据集管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body ng-app="AssertIndexApp">
+
+<div ng-controller="DatasetMgtController">
+<div  class="col-md-12">
+    <div class="bs-callout bs-callout-default">
+        <strong>数据集管理</strong><small>--数据集的定义、修改管理。</small>
+    </div>
+    <div ng-show="pageshow.datasetmgt">
+        <div class="col-md-12" ng-show="pageshow.mainbutton">
+            <button ng-show="pageshow.mbutton.addbutton" class="btn btn-success" ng-click="DatasetAdd()">添加数据集</button>
+            <button ng-show="pageshow.mbutton.addbutton" class="btn btn-success" ng-click="DatasetImport()">导入数据集</button>
+        </div>
+        <div class="col-md-12" ng-show="pageshow.datesetedit">
+            <div class="col-md-12 col-xs-12">
+                <form sf-schema="DatasetInfoSchema" sf-form="DatasetInfoEditForm" sf-model="DatasetInfoModel" sf-options="{ validationMessage: { 302: '该字段不能为空!' }}"></form>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="pageshow.DatasetTable">
+            <table ng-if="DatasetInfoList_dtOptions!=null" datatable="" id="DatasetInfoListTable" dt-options="DatasetInfoList_dtOptions" dt-columns="DatasetInfoList_dtColumns" class="row-border hover"></table>
+        </div>
+        <div ng-show="pageshow.datasetimport"><commimport as-dataset="ImportDataSetName" exit="reloadDataSetTable()"></commimport></div>
+    </div>
+
+    <div ng-show="pageshow.columnsmgt">
+        <div><h4>【{{DatasetInfoModel.TableCHName}}】数据集列管理</h4>
+        <div ng-show="pageshow.columnsmainbutton">
+            <button class="btn btn-success" ng-click="ColumnAdd()">添加列</button>
+            <button class="btn btn-error" ng-click="DatasetGoback()">返回数据集</button>
+        </div></div>
+        <div class="col-md-12" ng-show="pageshow.columnedit">
+            <div class="col-md-12 col-xs-12">
+                <form sf-schema="columnInfoSchema" sf-form="columnInfoEditForm" sf-model="columnInfoModel" sf-options="{ validationMessage: { 302: '该字段不能为空!' }}"></form>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="pageshow.columnTable">
+            <table ng-if="columnInfoList_dtOptions!=null" datatable="" id="columnInfoListTable" dt-options="columnInfoList_dtOptions" dt-columns="columnInfoList_dtColumns" class="row-border hover"></table>
+        </div>
+        <div ng-show="pageshow.datasetColumnimport"><commimport as-dataset="ImportDataSetColumnName" exit="reloadColumnTable()"></commimport></div>
+    </div>
+</div>
+</div>
+</body>
+</html>

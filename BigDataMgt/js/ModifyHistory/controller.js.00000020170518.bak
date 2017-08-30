@@ -1,0 +1,42 @@
+
+//Reform
+var 	ReformController = ['$compile','$scope', '$rootScope', '$http', '$q','localStorageService',
+    'DTColumnDefBuilder','DTOptionsBuilder','DTInstances','DTColumnBuilder','tableService','formService','DataMgtService','schemaForm','$filter',
+    function($compile,$scope, $rootScope, $http, $q,localStorageService,DTColumnDefBuilder,DTOptionsBuilder,DTInstances,DTColumnBuilder,tableService,formService,DataMgtService,schemaForm,$filter){
+        var vm = $scope;
+        vm.dataset = "reform";
+        vm.showoption = {};
+
+        vm.CommDataEditForm = {};
+        vm.CommDataEditInfo = {};
+        //vm.tabletype = "ajaxServer";  //tabletype决定表格是否为Server端获取数据
+        //
+        //定义各类form表单，可以根据不同的操作需要定义多个表单，在下一级controller中用$scope[formname]的方式进行调用
+
+        vm.showoption.ExtendEditForm = [
+            {
+                "type": "section", "htmlClass": "row",
+                "items": [
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["no"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["area"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["reformcase"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["description"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["schedule"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["connector"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["starttime"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["position"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["tel_num"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["fax_num"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["email"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["reform_effect"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["brokerage"] },
+                    { "type": "section", "htmlClass": "col-xs-6", "items": ["remark"] }
+                ]
+            }];
+        vm.showoption.MainAction = [{ButtonType:"btn-primary",actionFuncName:"AddCommData",actionName:"添加班级信息"},
+            {ButtonType:"btn-success",actionFuncName:"exportCommDataInfo",actionName:"导出班级信息"},
+            {ButtonType:"btn-warning",actionFuncName:"showAdSearch",actionName:"高级检索"}];
+        vm.showoption.nowTableActions = [{ButtonType:"btn-primary",actionFuncName:"CommDataInfoModify",actionName:"修改班级信息"},
+            {ButtonType:"btn-warning",actionFuncName:"CommDataDelete",actionName:"删除"}];
+    }];
+//Reform

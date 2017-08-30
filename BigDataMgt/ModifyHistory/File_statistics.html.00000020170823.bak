@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>文件统计报表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+   <link rel="stylesheet" type="text/css" href="js/lib/bootstrap3.2.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="css/font-awesome-4.2.0/css/font-awesome.min.css" type="text/css">
+    <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-local-storage.js"></script>
+    <script type="text/javascript" src="js/SampleApp.js" charset="gb2312"></script>
+
+</head>
+<body ng-app="AssertIndexApp">
+  <div  class="all" style="margin-left: 200px;margin-right: 200px;">
+        <div class="bs-callout bs-callout-default">
+            <h3><strong><center>文件统计分类报表</center></strong></h3>
+        </div>
+	<table class="table table-bordered" id="mytable" >
+
+  <select id="selector" onchange="getdata()" style="width: 200px;height: 33px;">
+     <option value="0">--请选择统计字段--</option>
+     <option value="1">类别</option>
+     <option value="2">讲话人</option>
+     <option value="3">起草人</option>
+     <option value="4">来源</option>                               
+  </select>
+</table>
+</div>
+<script type="text/javascript">
+	var getdata = function () {
+		$('#mytable tbody tr').remove();
+    var sce = $("#selector").find("option:selected").text();
+      //console.log(sce);
+       function dataform(data){
+       
+        switch(data){
+          case "类别": name = "category";break;
+          case "讲话人": name ="speaker";break;
+          case "起草人": name ="draftsman";break;
+          case "来源": name ="source";break;          
+        }
+        return name;
+    }
+
+		$.ajax({
+			type:"POST",
+			url:"api/1.0/edu/system/account/getMesByCol",
+			data:dataform(sce),
+			dataType:"json",
+			async:true,
+			success:function(data){
+		
+          var arr = data.contents;
+          var length=data.contents.length;
+          if(dataform(sce)=="category"){
+          	if($("#tb")){
+          		$("#tb").remove();
+          	}
+
+          $('#mytable').append("<tbody id='tb'><tr><td>"+"类别"+"</td><td>"+"文件名"+"</td><td>"+"起草人"+"</td><td>"+"讲话人"+"</td><td>"+"定稿日期"+"</td><td>"+"关键词"+"</td><td>"+"主题"+"</td><td>"+"来源"+"</td><td>"+"上传日期"+"</td></tr><tbody");
+					    
+					for (var i=0; i<length; i++) { 
+
+						for(var n=0;n<data.contents[i].length;n++){
+							var category=arr[i][n].category||'无';
+							var len=data.contents[i].length;					
+						}
+						$('#mytable tbody').append("<td bgcolor='#B0C4DE'>"+category+len+"篇"+"</td>");
+						for(var j=0;j<data.contents[i].length;j++){	
+						var file_name=arr[i][j].file_name||'无';
+						var category=arr[i][j].category||'';
+						var draftsman=arr[i][j].draftsman||'无';
+						var speaker=arr[i][j].speaker||'无';
+						var last_updated = arr[i][j].last_updated||'无';
+						var keyword=arr[i][j].keyword||'无';
+						var theme=arr[i][j].theme||'无';
+						var source=arr[i][j].source||'无';
+						var upload_date=arr[i][j].upload_date||'无';
+
+						$('#mytable tbody').append("<tr><td>"+category+"</td><td>"+file_name+"</td><td>"+draftsman+"</td><td>"+speaker+"</td><td>"+last_updated+"</td><td>"+keyword+"</td><td>"+theme+"</td><td>"+source+"</td><td>"+upload_date+"</td></tr>");
+						}	//for
+			       }//for
+		 }else if(dataform(sce)=="draftsman"){
+		 	if($("#tb")){
+          		$("#tb").remove();
+          	}
+		 			 $('#mytable').append("<tbody id='tb'><tr><td>"+"起草人"+"</td><td>"+"类别"+"</td><td>"+"文件名"+"</td><td>"+"讲话人"+"</td><td>"+"定稿日期"+"</td><td>"+"关键词"+"</td><td>"+"主题"+"</td><td>"+"来源"+"</td><td>"+"上传日期"+"</td></tr><tbody");
+					for (var i=0; i<length; i++) { 
+						var len=data.contents[i].length;		
+						for(var n=0;n<data.contents[i].length;n++){
+							var draftsman=arr[i][n].draftsman||'无';
+						}
+						$('#mytable tbody').append("<td bgcolor='#B0C4DE'>"+draftsman+len+"篇"+"</td>");
+						for(var j=0;j<data.contents[i].length;j++){
+						var file_name=arr[i][j].file_name||'无';
+						var category=arr[i][j].category||'无';
+						var draftsman=arr[i][j].draftsman||'';
+						var speaker=arr[i][j].speaker||'无';
+						var last_updated=arr[i][j].last_updated||'无';
+						var keyword=arr[i][j].keyword||'无';
+						var theme=arr[i][j].theme||'无';
+						var source=arr[i][j].source||'无';
+						var upload_date=arr[i][j].upload_date||'无';					
+						$('#mytable tbody').append("<tr><td>"+draftsman+"</td><td>"+category+"</td><td>"+file_name+"</td><td>"+speaker+"</td><td>"+last_updated+"</td><td>"+keyword+"</td><td>"+theme+"</td><td>"+source+"</td><td>"+upload_date+"</td></tr>");
+
+						}	//for
+			       }//for
+		 		
+		 }else if(dataform(sce)=="speaker"){
+		 	if($("#tb")){
+          		$("#tb").remove();
+          	}
+		 			 $('#mytable').append("<tbody id='tb'><tr><td>"+"讲话人"+"</td><td>"+"类别"+"</td><td>"+"文件名"+"</td><td>"+"起草人"+"</td><td>"+"定稿日期"+"</td><td>"+"关键词"+"</td><td>"+"主题"+"</td><td>"+"来源"+"</td><td>"+"上传日期"+"</td></tr><tbody");
+					for (var i=0; i<length; i++) { 
+						var len=data.contents[i].length;
+						for(var n=0;n<data.contents[i].length;n++){
+							var speaker=arr[i][n].speaker||'无';
+						}
+						$('#mytable tbody').append("<td bgcolor='#B0C4DE'>"+speaker+len+"篇"+"</td>");
+						
+						for(var j=0;j<data.contents[i].length;j++){
+						var file_name=arr[i][j].file_name||'无';
+						var category=arr[i][j].category||'无';
+						var draftsman=arr[i][j].draftsman||'无';
+						var speaker=arr[i][j].speaker||'';
+						var last_updated=arr[i][j].last_updated||'无';
+						var keyword=arr[i][j].keyword||'无';
+						var theme=arr[i][j].theme||'无';
+						var source=arr[i][j].source||'无';
+						var upload_date=arr[i][j].upload_date||'无';
+						
+
+						$('#mytable tbody').append("<tr><td>"+speaker+"</td><td>"+category+"</td><td>"+file_name+"</td><td>"+draftsman+"</td><td>"+last_updated+"</td><td>"+keyword+"</td><td>"+theme+"</td><td>"+source+"</td><td>"+upload_date+"</td></tr>");
+						}	//for
+			       }//for		
+	   }else if(dataform(sce)=="source"){
+		 	if($("#tb")){
+          		$("#tb").remove();
+          	}
+		 			 $('#mytable').append("<tbody id='tb'><tr><td>"+"来源"+"</td><td>"+"类别"+"</td><td>"+"文件名"+"</td><td>"+"讲话人"+"</td><td>"+"起草人"+"</td><td>"+"定稿日期"+"</td><td>"+"关键词"+"</td><td>"+"主题"+"</td><td>"+"上传日期"+"</td></tr><tbody");
+					for (var i=0; i<length; i++) { 
+						var len=data.contents[i].length;
+						for(var n=0;n<data.contents[i].length;n++){
+							var source=arr[i][n].source||'无';
+						}
+						$('#mytable tbody').append("<td bgcolor='#B0C4DE'>"+source+len+"篇"+"</td>");
+						for(var j=0;j<data.contents[i].length;j++){
+						var file_name=arr[i][j].file_name||'无';
+						var category=arr[i][j].category||'无';
+						var draftsman=arr[i][j].draftsman||'无';
+						var speaker=arr[i][j].speaker||'无';
+						var last_updated=arr[i][j].last_updated||'无';
+						var keyword=arr[i][j].keyword||'无';
+						var theme=arr[i][j].theme||'无';
+						var source=arr[i][j].source||'';
+						var upload_date=arr[i][j].upload_date||'无';
+						$('#mytable tbody').append("<tr><td>"+source+"</td><td>"+category+"</td><td>"+file_name+"</td><td>"+speaker+"</td><td>"+draftsman+"</td><td>"+last_updated+"</td><td>"+keyword+"</td><td>"+theme+"</td><td>"+upload_date+"</td></tr>");
+						}	//for
+			       }//for		
+	   }
+	  },
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				//console.log(XMLHttpRequest);
+       // console.log(textStatus);
+       // console.log(errorThrown);
+
+			}
+		})
+	};
+</script>
+</body>
+</html>

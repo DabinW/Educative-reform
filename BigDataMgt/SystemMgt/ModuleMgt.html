@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>模块管理</title>
+    <link rel="stylesheet" type="text/css" href="css/AssertMgt.css" />
+</head>
+
+<body  ng-app="AssertIndexApp">
+<div ng-controller="SysUserAdminController">
+
+    <div  class="col-md-12">
+        <div class="bs-callout bs-callout-danger ">
+            <strong>模块管理</strong><small>--系统模块管理。</small>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="col-md-2 ">模块信息列表</span>
+                <div class="btn-group">
+                    <button class="btn btn-success btn-xs " ng-disabled="selectedModuleNode.data==null" ng-click="ShowAddModule()" title="增加模块">增加模块</button>
+                    <button class="btn btn-primary btn-xs " ng-disabled="selectedModuleNode.data==null" ng-click="ShowModifyModule()" title="修改模块">修改模块</button>
+                    <button class="btn btn-danger btn-xs " ng-disabled="selectedModuleNode.data==null" ng-click="DelModule()" title="删除模块">删除模块</button>
+                </div>
+
+            </div>
+            <div class="panel-body">
+                <treecontrol  class="tree-classic col-md-6"
+                              on-selection="ModuleSelected(node)"
+                             tree-model="ModuleTreeData" expanded-nodes="expandedModuleNodes"
+                             options="ModuleTreeOptions">
+                   {{node.data}}
+                </treecontrol>
+
+                <div>
+                    <div class="col-md-6" ng-show="ModuleFrom">
+                        <form id="ModuleFrom" name="ModuleFrom">
+
+
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">父模块ID</i></span>
+                            <input  type="text" class="form-control " ng-model="ModuleInfo.ModuleParentID "  placeholder="父模块ID..." title="父模块ID" >
+                        </div>
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">模块ID</i></span>
+                            <input  type="text" class="form-control " ng-disabled="true" ng-model="ModuleInfo.ModuleID "  placeholder="模块ID..." title="模块ID" >
+                        </div>
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">模块名称</i></span>
+                            <input name="ModuleName" type="text" class="form-control " ng-model="ModuleInfo.ModuleName"  ng-required="true" ng-class="{'xh' : ModuleFrom.ModuleName.$invalid}" placeholder="模块名称..." title="模块名称" >
+                        </div>
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">模块层次</i></span>
+                            <input  name="ModuleHierarchy" type="text" class="form-control " ng-model="ModuleInfo.ModuleHierarchy"  ng-required="true" ng-class="{'xh' : ModuleFrom.ModuleHierarchy.$invalid}"  placeholder="模块层次..." title="模块层次" >
+                        </div>
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">优先级</i></span>
+                            <input name="ModulePriority" type="text" class="form-control " ng-model="ModuleInfo.ModulePriority"  ng-required="true" ng-class="{'xh' : ModuleFrom.ModulePriority.$invalid}"  placeholder="优先级..." title="优先级" >
+                        </div>
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">路由地址</i></span>
+                            <input name="RouteName"  type="text" class="form-control " ng-model="ModuleInfo.RouteName"  ng-required="true" ng-class="{'xh' : ModuleFrom.RouteName.$invalid}" placeholder="路由地址..." title="路由地址" >
+                        </div>
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">是否为菜单</i></span>
+                            <select name="IsMenu"  ng-required="true" ng-model="ModuleInfo.IsMenu"  ng-required="true" title="是否为菜单"  ng-class="{'xxh' : ModuleFrom.IsMenu.$invalid}" class="form-control"
+                                ng-options="o.v as o.n for o in [{ n: '--选择是否为叶子节点--', v: '' }, { n: '是', v: true },{ n: '否', v: false }]">
+                            </select>
+                        </div>
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">功能描述</i></span>
+                            <input name="ModuleNotes"  type="text" class="form-control " ng-model="ModuleInfo.ModuleNotes"  ng-required="true" ng-class="{'xh' : ModuleFrom.ModuleNotes.$invalid}" placeholder="功能描述..." title="功能描述" >
+                        </div>
+
+                        <div class="col-md-4 col-md-offset-7">
+                            <button ng-show="ButtonShow=='Add'" ng-click="SubmitAddModule(ModuleFrom.$valid)"  class="btn btn-success">添加</button>
+                            <button ng-show="ButtonShow=='Modify'" ng-click="SubmitModifyModule()" class="btn btn-primary">修改</button>
+                            <button class="btn btn-default" ng-click="Cancel()">取消</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

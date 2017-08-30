@@ -1,0 +1,487 @@
+﻿ <!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>人员分类统计报表</title>
+    <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-local-storage.js"></script>
+    <script type="text/javascript" src="js/SampleApp.js" charset="gb2312"></script>
+    <script src="js/echarts.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <style type="text/css">
+    html body{
+      width: 100%;
+      height: 100%
+    }
+    .all{
+      margin-left: 7%;
+      margin-right: 7%;
+    }
+ 
+    .top{
+      margin-top: 30px;
+
+    } 
+    </style>
+     <style media="print">
+       .Noprint { display: none }
+    </style>
+
+</head>
+<body>
+  <div>
+    <div class="all">
+      <div class="top">
+        <h3><center><strong>人员分类统计报表</strong></center></h3>
+      </div>
+      <div class="up">
+          <div class="Noprint">
+            <input type="button" class="btn btn-info btn-newMem" value="人员分类统计图"   onclick="javascrtpt:window.location.href='person_classification.html'">
+          </div>
+      </div>
+      <div class="middle">
+          <div>
+            <table class="table table-bordered" id="table">
+            
+              <tr><h4 style=" background-color: #B0C4DE;">类别-内部人员</h4></tr>
+              <tr>
+                <table class="table table-bordered" id="table1">
+                  <thead>
+                    <tr>
+                        <th>类别-内部人员</th>
+                        <th>在编</th>
+                        <th>挂职</th>                        
+                        <th>实习</th>
+                        <th>借调</th>
+                        <th>调研组</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table><!-- table11 -->
+              </tr>
+              <tr><h4 style=" background-color: #B0C4DE;">地区</h4></tr>
+              <tr>
+                <table class="table table-bordered" id="table2">
+                  <thead>
+                    <tr>
+                        <th>地区</th>
+                        <th>北京</th>
+                        <th>天津</th>
+                        <th>河北</th>
+                        <th>山西</th>
+                        <th>内蒙古</th>
+                        <th>辽宁</th>
+                        <th>吉林</th>
+                        <th>黑龙江</th>
+                        <th>上海</th>
+                        <th>江苏</th>
+                        <th>浙江</th>
+                        <th>安徽</th>
+                        <th>福建</th>
+                        <th>江西</th>
+                         </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table><!-- table21 -->
+              </tr>
+              <tr>
+                <table class="table table-bordered" id="table5">
+                  <thead>
+                    <tr>
+                       
+                       <!--  后二十 -->
+                        <th>山东</th>
+                        <th>河南</th>
+                        <th>湖北</th>
+                        <th>湖南</th>
+                        <th>广东</th>
+                        <th>广西</th>
+                        <th>海南</th>
+                        <th>重庆</th>
+                        <th>四川</th>
+                        <th>贵州</th>
+                        <th>云南</th>
+                        <th>西藏</th>
+                        <th>陕西</th>
+                        <th>甘肃</th>
+                        <th>青海</th>
+                        <th>宁夏</th>
+                        <th>新疆</th>
+                        <th>香港</th>
+                        <th>澳门</th>
+                        <th>台湾</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table><!-- table21 -->
+              </tr>
+           <tr><h4 style=" background-color: #B0C4DE;">行政级别</h4></tr>
+              <tr>
+                <table  class="table table-bordered" id="table3">
+                  <thead>
+                    <tr>
+                      <th>行政级别</th>
+                      <th>正部</th>
+                      <th>副部</th>
+                      <th>正厅</th>
+                      <th>副厅</th>
+                      <th>正处</th>
+                      <th>副处</th>
+                      <th>正科</th>
+                      <th>副科</th>
+                      <th>科员</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </tr>
+            
+              <tr><h4 style=" background-color: #B0C4DE;">职称</h4></tr>
+              <tr>
+                <table  class="table table-bordered" id="table4">
+                  <thead>
+                    <tr>
+                      <th>职称</th>
+                      <th>教授</th>
+                      <th>副教授</th>
+                      <th>讲师</th>
+                      <th>助教</th>
+                      <th>研究员</th>
+                      <th>副研究员</th>
+                      <th>助理研究员</th>
+                      <th>研究实习员</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </tr>
+              
+            </table>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+  
+<script type="text/javascript">
+var year=[];
+var zaibian=[];
+var guazhi=[];
+var shixi=[];
+var jiediao=[];
+var diaoyan=[]; 
+                           $.ajax({
+                                  type:"GET",
+                                  url:"api/1.0/edu/system/account/countCategoryByYear",
+                                  dataType:"json",
+                                  async:true,
+                                  success:function(data){
+  
+                                        for(i=0;i<data.contents.length;i++){
+                                           year[i]=data.contents[i].year;
+                                           zaibian[i]=data.contents[i].zaizhi;
+                                           guazhi[i]=data.contents[i].guazhi;
+                                           shixi[i]=data.contents[i].shixi;
+                                           jiediao[i]=data.contents[i].jiediao;
+                                           diaoyan[i]=data.contents[i].diaoyan;
+                                        };
+                                        $('#table1 tbody').append("<tr><td>"+year[0]+"</td><td>"+zaibian[0]+"</td><td>"+guazhi[0]+"</td><td>"+shixi[0]+"</td><td>"+jiediao[0]+"</td><td>"+diaoyan[0]+"</td></tr>");
+                                        $('#table1 tbody').append("<tr><td>"+year[1]+"</td><td>"+zaibian[1]+"</td><td>"+guazhi[1]+"</td><td>"+shixi[1]+"</td><td>"+jiediao[1]+"</td><td>"+diaoyan[1]+"</td></tr>");   
+                                  }
+                              });
+
+
+var neibu=[];
+var guojia=[];
+var gedi=[];
+var zhishu=[];
+var zhuanjia=[];
+                              $.ajax({
+                                  type:"GET",
+                                  url:"api/1.0/edu/system/account/countByRank",//行政级别
+                                  dataType:"json",
+                                  async:true,
+                                  success:function(data){
+
+                                        for(i=0;i<data.contents[0].length;i++){
+                                           neibu[i]=data.contents[0][i];
+                                        };
+                                        $('#table3 tbody').append("<tr><td>"+"内部人员"+"</td><td>"+neibu[0]+"</td><td>"+neibu[1]+"</td><td>"+neibu[2]+"</td><td>"+neibu[3]+"</td><td>"+neibu[4]+"</td><td>"+neibu[5]+"</td><td>"+neibu[6]+"</td><td>"+neibu[7]+"</td><td>"+neibu[8]+"</td></tr>");
+
+
+                                        for(i=0;i<data.contents[1].length;i++){
+                                           guojia[i]=data.contents[1][i];
+                                        };
+                                        $('#table3 tbody').append("<tr><td>"+"国家教育咨询委员"+"</td><td>"+guojia[0]+"</td><td>"+guojia[1]+"</td><td>"+guojia[2]+"</td><td>"+guojia[3]+"</td><td>"+guojia[4]+"</td><td>"+guojia[5]+"</td><td>"+guojia[6]+"</td><td>"+guojia[7]+"</td><td>"+guojia[8]+"</td></tr>");
+
+
+                                        for(i=0;i<data.contents[2].length;i++){
+                                           gedi[i]=data.contents[2][i];
+                                        };
+                                        $('#table3 tbody').append("<tr><td>"+"各地教育行政部门"+"</td><td>"+gedi[0]+"</td><td>"+gedi[1]+"</td><td>"+gedi[2]+"</td><td>"+gedi[3]+"</td><td>"+gedi[4]+"</td><td>"+gedi[5]+"</td><td>"+gedi[6]+"</td><td>"+gedi[7]+"</td><td>"+gedi[8]+"</td></tr>");
+
+                                        for(i=0;i<data.contents[3].length;i++){
+                                           zhishu[i]=data.contents[3][i];
+                                        };
+                                        $('#table3 tbody').append("<tr><td>"+"直属高校及各级各类学校人员"+"</td><td>"+zhishu[0]+"</td><td>"+zhishu[1]+"</td><td>"+zhishu[2]+"</td><td>"+zhishu[3]+"</td><td>"+zhishu[4]+"</td><td>"+zhishu[5]+"</td><td>"+zhishu[6]+"</td><td>"+zhishu[7]+"</td><td>"+zhishu[8]+"</td></tr>");
+
+
+                                        for(i=0;i<data.contents[4].length;i++){
+                                           zhuanjia[i]=data.contents[4][i];
+                                        };
+                                        $('#table3 tbody').append("<tr><td>"+"专家学者及社会知名人士"+"</td><td>"+zhuanjia[0]+"</td><td>"+zhuanjia[1]+"</td><td>"+zhuanjia[2]+"</td><td>"+zhuanjia[3]+"</td><td>"+zhuanjia[4]+"</td><td>"+zhuanjia[5]+"</td><td>"+zhuanjia[6]+"</td><td>"+zhuanjia[7]+"</td><td>"+zhuanjia[8]+"</td></tr>");
+                                       
+                                        
+                                  }
+                              });
+var neibu1=[];
+var guojia1=[];
+var gedi1=[];
+var zhishu1=[];
+var zhuanjia1=[];
+                              $.ajax({
+                                  type:"GET",
+                                  url:"api/1.0/edu/system/account/countByTitle",//职称
+                                  dataType:"json",
+                                  async:true,
+                                  success:function(data){
+
+                                        for(i=0;i<data.contents[0].length;i++){
+                                           neibu1[i]=data.contents[0][i];
+                                        };
+                                        $('#table4 tbody').append("<tr><td>"+"内部人员"+"</td><td>"+neibu1[0]+"</td><td>"+neibu1[1]+"</td><td>"+neibu1[2]+"</td><td>"+neibu1[3]+"</td><td>"+neibu1[4]+"</td><td>"+neibu1[5]+"</td><td>"+neibu1[6]+"</td><td>"+neibu1[7]+"</td></tr>");
+
+
+                                        for(i=0;i<data.contents[1].length;i++){
+                                           guojia1[i]=data.contents[1][i];
+                                        };
+                                        $('#table4 tbody').append("<tr><td>"+"国家教育咨询委员"+"</td><td>"+guojia1[0]+"</td><td>"+guojia1[1]+"</td><td>"+guojia1[2]+"</td><td>"+guojia1[3]+"</td><td>"+guojia1[4]+"</td><td>"+guojia1[5]+"</td><td>"+guojia1[6]+"</td><td>"+guojia1[7]+"</td></tr>");
+
+
+                                        for(i=0;i<data.contents[2].length;i++){
+                                           gedi1[i]=data.contents[2][i];
+                                        };
+                                        $('#table4 tbody').append("<tr><td>"+"各地教育行政部门"+"</td><td>"+gedi1[0]+"</td><td>"+gedi1[1]+"</td><td>"+gedi1[2]+"</td><td>"+gedi1[3]+"</td><td>"+gedi1[4]+"</td><td>"+gedi1[5]+"</td><td>"+gedi1[6]+"</td><td>"+gedi1[7]+"</td></tr>");
+
+                                        for(i=0;i<data.contents[3].length;i++){
+                                           zhishu1[i]=data.contents[3][i];
+                                        };
+                                        $('#table4 tbody').append("<tr><td>"+"直属高校及各级各类学校人员"+"</td><td>"+zhishu1[0]+"</td><td>"+zhishu1[1]+"</td><td>"+zhishu1[2]+"</td><td>"+zhishu1[3]+"</td><td>"+zhishu1[4]+"</td><td>"+zhishu1[5]+"</td><td>"+zhishu1[6]+"</td><td>"+zhishu1[7]+"</td></tr>");
+
+
+                                        for(i=0;i<data.contents[4].length;i++){
+                                           zhuanjia1[i]=data.contents[4][i];
+                                        };
+                                        $('#table4 tbody').append("<tr><td>"+"专家学者及社会知名人士"+"</td><td>"+zhuanjia1[0]+"</td><td>"+zhuanjia1[1]+"</td><td>"+zhuanjia1[2]+"</td><td>"+zhuanjia1[3]+"</td><td>"+zhuanjia1[4]+"</td><td>"+zhuanjia1[5]+"</td><td>"+zhuanjia1[6]+"</td><td>"+zhuanjia1[7]+"</td></tr>");
+                                       
+                                        
+                                  }
+                              });
+var guojia2=[];
+var gedi2=[];
+var zhishu2=[];
+var zhuanjia2=[];
+
+                              $.ajax({
+                                  type:"GET",
+                                  url:"api/1.0/edu/system/account/getCountByAreaB",
+                                  dataType:"json",
+                                  async:true,
+                                  success:function(data){
+                                      for(var i = 0;i<=data.contents[0].length-1; i++){
+                                          switch(data.contents[0][i].area){
+                                              case "北京": guojia2[0]=data.contents[0][i].count; break;
+                                              case "天津": guojia2[1]= data.contents[0][i].count; break;
+                                              case "河北": guojia2[2]= data.contents[0][i].count; break;
+                                              case "山西": guojia2[3]= data.contents[0][i].count; break;
+                                              case "内蒙古": guojia2[4]=data.contents[0][i].count; break;
+                                              case "辽宁": guojia2[5]= data.contents[0][i].count; break;
+                                              case "吉林": guojia2[6]= data.contents[0][i].count; break;
+                                              case "黑龙江": guojia2[7]=data.contents[0][i].count; break;
+                                              case "上海": guojia2[8]= data.contents[0][i].count; break;
+                                              case "江苏": guojia2[9]= data.contents[0][i].count; break;
+                                              case "浙江": guojia2[10]=data.contents[0][i].count; break;
+                                              case "安徽": guojia2[11]=data.contents[0][i].count; break;
+                                              case "福建": guojia2[12]=data.contents[0][i].count; break;
+                                              case "江西": guojia2[13]=data.contents[0][i].count; break;
+                                              case "山东": guojia2[14]=data.contents[0][i].count; break;
+                                              case "河南": guojia2[15]=data.contents[0][i].count; break;
+                                              case "湖北": guojia2[16]=data.contents[0][i].count; break;
+                                              case "湖南": guojia2[17]=data.contents[0][i].count; break;
+                                              case "广东": guojia2[18]=data.contents[0][i].count; break;
+                                              case "广西": guojia2[19]=data.contents[0][i].count; break;
+                                              case "海南": guojia2[20]=data.contents[0][i].count; break;
+                                              case "重庆": guojia2[21]=data.contents[0][i].count; break;
+                                              case "四川": guojia2[22]=data.contents[0][i].count; break;
+                                              case "贵州": guojia2[23]=data.contents[0][i].count; break;
+                                              case "云南": guojia2[24]=data.contents[0][i].count; break;
+                                              case "西藏": guojia2[25]=data.contents[0][i].count; break;
+                                              case "陕西": guojia2[26]=data.contents[0][i].count; break;
+                                              case "甘肃": guojia2[27]=data.contents[0][i].count; break;
+                                              case "青海": guojia2[28]=data.contents[0][i].count; break;
+                                              case "宁夏": guojia2[29]=data.contents[0][i].count; break;
+                                              case "新疆": guojia2[30]=data.contents[0][i].count; break;
+                                              case "香港": guojia2[31]=data.contents[0][i].count; break;
+                                              case "澳门": guojia2[32]=data.contents[0][i].count; break;
+                                              case "台湾": guojia2[33]=data.contents[0][i].count; break;
+                                          }
+                                      };
+                                      for(i=0;i<35;i++){
+                                          if (guojia2[i]==null) {
+                                            guojia2[i]=0;
+                                          }
+                                      };
+                                      $('#table2 tbody').append("<tr><td>"+"国家教育咨询委员"+"</td><td>"+guojia2[0]+"</td><td>"+guojia2[1]+"</td><td>"+guojia2[2]+"</td><td>"+guojia2[3]+"</td><td>"+guojia2[4]+"</td><td>"+guojia2[5]+"</td><td>"+guojia2[6]+"</td><td>"+guojia2[7]+"</td><td>"+guojia2[8]+"</td><td>"+guojia2[9]+"</td><td>"+guojia2[10]+"</td><td>"+guojia2[11]+"</td><td>"+guojia2[12]+"</td><td>"+guojia2[13]+"</td></tr>");
+                                        $('#table5 tbody').append("<tr><td>"+guojia2[14]+"</td><td>"+guojia2[15]+"</td><td>"+guojia2[16]+"</td><td>"+guojia2[17]+"</td><td>"+guojia2[18]+"</td><td>"+guojia2[19]+"</td><td>"+guojia2[20]+"</td><td>"+guojia2[21]+"</td><td>"+guojia2[22]+"</td><td>"+guojia2[23]+"</td><td>"+guojia2[24]+"</td><td>"+guojia2[25]+"</td><td>"+guojia2[26]+"</td><td>"+guojia2[27]+"</td><td>"+guojia2[28]+"</td><td>"+guojia2[29]+"</td><td>"+guojia2[30]+"</td><td>"+guojia2[31]+"</td><td>"+guojia2[32]+"</td><td>"+guojia2[33]+"</td></tr>");
+
+                                      for(var i = 0;i<=data.contents[1].length-1; i++){
+                                          switch(data.contents[1][i].area){
+                                              case "北京": gedi2[0]=data.contents[1][i].count; break;
+                                              case "天津": gedi2[1]= data.contents[1][i].count; break;
+                                              case "河北": gedi2[2]= data.contents[1][i].count; break;
+                                              case "山西": gedi2[3]= data.contents[1][i].count; break;
+                                              case "内蒙古": gedi2[4]=data.contents[1][i].count; break;
+                                              case "辽宁": gedi2[5]= data.contents[1][i].count; break;
+                                              case "吉林": gedi2[6]= data.contents[1][i].count; break;
+                                              case "黑龙江": gedi2[7]=data.contents[1][i].count; break;
+                                              case "上海": gedi2[8]= data.contents[1][i].count; break;
+                                              case "江苏": gedi2[9]= data.contents[1][i].count; break;
+                                              case "浙江": gedi2[10]=data.contents[1][i].count; break;
+                                              case "安徽": gedi2[11]=data.contents[1][i].count; break;
+                                              case "福建": gedi2[12]=data.contents[1][i].count; break;
+                                              case "江西": gedi2[13]=data.contents[1][i].count; break;
+                                              case "山东": gedi2[14]=data.contents[1][i].count; break;
+                                              case "河南": gedi2[15]=data.contents[1][i].count; break;
+                                              case "湖北": gedi2[16]=data.contents[1][i].count; break;
+                                              case "湖南": gedi2[17]=data.contents[1][i].count; break;
+                                              case "广东": gedi2[18]=data.contents[1][i].count; break;
+                                              case "广西": gedi2[19]=data.contents[1][i].count; break;
+                                              case "海南": gedi2[20]=data.contents[1][i].count; break;
+                                              case "重庆": gedi2[21]=data.contents[1][i].count; break;
+                                              case "四川": gedi2[22]=data.contents[1][i].count; break;
+                                              case "贵州": gedi2[23]=data.contents[1][i].count; break;
+                                              case "云南": gedi2[24]=data.contents[1][i].count; break;
+                                              case "西藏": gedi2[25]=data.contents[1][i].count; break;
+                                              case "陕西": gedi2[26]=data.contents[1][i].count; break;
+                                              case "甘肃": gedi2[27]=data.contents[1][i].count; break;
+                                              case "青海": gedi2[28]=data.contents[1][i].count; break;
+                                              case "宁夏": gedi2[29]=data.contents[1][i].count; break;
+                                              case "新疆": gedi2[30]=data.contents[1][i].count; break;
+                                              case "香港": gedi2[31]=data.contents[1][i].count; break;
+                                              case "澳门": gedi2[32]=data.contents[1][i].count; break;
+                                              case "台湾": gedi2[33]=data.contents[1][i].count; break;
+                                          }
+                                      };
+                                      for(i=0;i<35;i++){
+                                          if (gedi2[i]==null) {
+                                            gedi2[i]=0;
+                                          }
+                                      };
+                                        $('#table2 tbody').append("<tr><td>"+"各地教育行政部门"+"</td><td>"+gedi2[0]+"</td><td>"+gedi2[1]+"</td><td>"+gedi2[2]+"</td><td>"+gedi2[3]+"</td><td>"+gedi2[4]+"</td><td>"+gedi2[5]+"</td><td>"+gedi2[6]+"</td><td>"+gedi2[7]+"</td><td>"+gedi2[8]+"</td><td>"+gedi2[9]+"</td><td>"+gedi2[10]+"</td><td>"+gedi2[11]+"</td><td>"+gedi2[12]+"</td><td>"+gedi2[13]+"</td></tr>");
+                                          $('#table5 tbody').append("<tr><td>"+gedi2[14]+"</td><td>"+gedi2[15]+"</td><td>"+gedi2[16]+"</td><td>"+gedi2[17]+"</td><td>"+gedi2[18]+"</td><td>"+gedi2[19]+"</td><td>"+gedi2[20]+"</td><td>"+gedi2[21]+"</td><td>"+gedi2[22]+"</td><td>"+gedi2[23]+"</td><td>"+gedi2[24]+"</td><td>"+gedi2[25]+"</td><td>"+gedi2[26]+"</td><td>"+gedi2[27]+"</td><td>"+gedi2[28]+"</td><td>"+gedi2[29]+"</td><td>"+gedi2[30]+"</td><td>"+gedi2[31]+"</td><td>"+gedi2[32]+"</td><td>"+gedi2[33]+"</td></tr>"); 
+
+                                        for(var i = 0;i<=data.contents[2].length-1; i++){
+                                          switch(data.contents[2][i].area){
+                                              case "北京": zhishu2[0]=data.contents[2][i].count; break;
+                                              case "天津": zhishu2[1]= data.contents[2][i].count; break;
+                                              case "河北": zhishu2[2]= data.contents[2][i].count; break;
+                                              case "山西": zhishu2[3]= data.contents[2][i].count; break;
+                                              case "内蒙古": zhishu2[4]=data.contents[2][i].count; break;
+                                              case "辽宁": zhishu2[5]= data.contents[2][i].count; break;
+                                              case "吉林": zhishu2[6]= data.contents[2][i].count; break;
+                                              case "黑龙江": zhishu2[7]=data.contents[2][i].count; break;
+                                              case "上海": zhishu2[8]= data.contents[2][i].count; break;
+                                              case "江苏": zhishu2[9]= data.contents[2][i].count; break;
+                                              case "浙江": zhishu2[10]=data.contents[2][i].count; break;
+                                              case "安徽": zhishu2[11]=data.contents[2][i].count; break;
+                                              case "福建": zhishu2[12]=data.contents[2][i].count; break;
+                                              case "江西": zhishu2[13]=data.contents[2][i].count; break;
+                                              case "山东": zhishu2[14]=data.contents[2][i].count; break;
+                                              case "河南": zhishu2[15]=data.contents[2][i].count; break;
+                                              case "湖北": zhishu2[16]=data.contents[2][i].count; break;
+                                              case "湖南": zhishu2[17]=data.contents[2][i].count; break;
+                                              case "广东": zhishu2[18]=data.contents[2][i].count; break;
+                                              case "广西": zhishu2[19]=data.contents[2][i].count; break;
+                                              case "海南": zhishu2[20]=data.contents[2][i].count; break;
+                                              case "重庆": zhishu2[21]=data.contents[2][i].count; break;
+                                              case "四川": zhishu2[22]=data.contents[2][i].count; break;
+                                              case "贵州": zhishu2[23]=data.contents[2][i].count; break;
+                                              case "云南": zhishu2[24]=data.contents[2][i].count; break;
+                                              case "西藏": zhishu2[25]=data.contents[2][i].count; break;
+                                              case "陕西": zhishu2[26]=data.contents[2][i].count; break;
+                                              case "甘肃": zhishu2[27]=data.contents[2][i].count; break;
+                                              case "青海": zhishu2[28]=data.contents[2][i].count; break;
+                                              case "宁夏": zhishu2[29]=data.contents[2][i].count; break;
+                                              case "新疆": zhishu2[30]=data.contents[2][i].count; break;
+                                              case "香港": zhishu2[31]=data.contents[2][i].count; break;
+                                              case "澳门": zhishu2[32]=data.contents[2][i].count; break;
+                                              case "台湾": zhishu2[33]=data.contents[2][i].count; break;
+                                          }
+                                      };
+                                      for(i=0;i<35;i++){
+                                          if (zhishu2[i]==null) {
+                                            zhishu2[i]=0;
+                                          }
+                                      };
+                                        $('#table2 tbody').append("<tr><td>"+"直属高校及各级各类学校人员"+"</td><td>"+zhishu2[0]+"</td><td>"+zhishu2[1]+"</td><td>"+zhishu2[2]+"</td><td>"+zhishu2[3]+"</td><td>"+zhishu2[4]+"</td><td>"+zhishu2[5]+"</td><td>"+zhishu2[6]+"</td><td>"+zhishu2[7]+"</td><td>"+zhishu2[8]+"</td><td>"+zhishu2[9]+"</td><td>"+zhishu2[10]+"</td><td>"+zhishu2[11]+"</td><td>"+zhishu2[12]+"</td><td>"+zhishu2[13]+"</td></tr>");
+                                          $('#table5 tbody').append("<tr><td>"+zhishu2[14]+"</td><td>"+zhishu2[15]+"</td><td>"+zhishu2[16]+"</td><td>"+zhishu2[17]+"</td><td>"+zhishu2[18]+"</td><td>"+zhishu2[19]+"</td><td>"+zhishu2[20]+"</td><td>"+zhishu2[21]+"</td><td>"+zhishu2[22]+"</td><td>"+zhishu2[23]+"</td><td>"+zhishu2[24]+"</td><td>"+zhishu2[25]+"</td><td>"+zhishu2[26]+"</td><td>"+zhishu2[27]+"</td><td>"+zhishu2[28]+"</td><td>"+zhishu2[29]+"</td><td>"+zhishu2[30]+"</td><td>"+zhishu2[31]+"</td><td>"+zhishu2[32]+"</td><td>"+zhishu2[33]+"</td></tr>");
+
+                                        for(var i = 0;i<=data.contents[3].length-1; i++){
+                                          switch(data.contents[3][i].area){
+                                              case "北京": zhuanjia2[0]=data.contents[3][i].count; break;
+                                              case "天津": zhuanjia2[1]= data.contents[3][i].count; break;
+                                              case "河北": zhuanjia2[2]= data.contents[3][i].count; break;
+                                              case "山西": zhuanjia2[3]= data.contents[3][i].count; break;
+                                              case "内蒙古": zhuanjia2[4]=data.contents[3][i].count; break;
+                                              case "辽宁": zhuanjia2[5]= data.contents[3][i].count; break;
+                                              case "吉林": zhuanjia2[6]= data.contents[3][i].count; break;
+                                              case "黑龙江": zhuanjia2[7]=data.contents[3][i].count; break;
+                                              case "上海": zhuanjia2[8]= data.contents[3][i].count; break;
+                                              case "江苏": zhuanjia2[9]= data.contents[3][i].count; break;
+                                              case "浙江": zhuanjia2[10]=data.contents[3][i].count; break;
+                                              case "安徽": zhuanjia2[11]=data.contents[3][i].count; break;
+                                              case "福建": zhuanjia2[12]=data.contents[3][i].count; break;
+                                              case "江西": zhuanjia2[13]=data.contents[3][i].count; break;
+                                              case "山东": zhuanjia2[14]=data.contents[3][i].count; break;
+                                              case "河南": zhuanjia2[15]=data.contents[3][i].count; break;
+                                              case "湖北": zhuanjia2[16]=data.contents[3][i].count; break;
+                                              case "湖南": zhuanjia2[17]=data.contents[3][i].count; break;
+                                              case "广东": zhuanjia2[18]=data.contents[3][i].count; break;
+                                              case "广西": zhuanjia2[19]=data.contents[3][i].count; break;
+                                              case "海南": zhuanjia2[20]=data.contents[3][i].count; break;
+                                              case "重庆": zhuanjia2[21]=data.contents[3][i].count; break;
+                                              case "四川": zhuanjia2[22]=data.contents[3][i].count; break;
+                                              case "贵州": zhuanjia2[23]=data.contents[3][i].count; break;
+                                              case "云南": zhuanjia2[24]=data.contents[3][i].count; break;
+                                              case "西藏": zhuanjia2[25]=data.contents[3][i].count; break;
+                                              case "陕西": zhuanjia2[26]=data.contents[3][i].count; break;
+                                              case "甘肃": zhuanjia2[27]=data.contents[3][i].count; break;
+                                              case "青海": zhuanjia2[28]=data.contents[3][i].count; break;
+                                              case "宁夏": zhuanjia2[29]=data.contents[3][i].count; break;
+                                              case "新疆": zhuanjia2[30]=data.contents[3][i].count; break;
+                                              case "香港": zhuanjia2[31]=data.contents[3][i].count; break;
+                                              case "澳门": zhuanjia2[32]=data.contents[3][i].count; break;
+                                              case "台湾": zhuanjia2[33]=data.contents[3][i].count; break;
+                                          }
+                                      };
+                                      for(i=0;i<35;i++){
+                                          if (zhuanjia2[i]==null) {
+                                            zhuanjia2[i]=0;
+                                          }
+                                      };
+                                        $('#table2 tbody').append("<tr><td>"+"专家学者及社会知名人士"+"</td><td>"+zhuanjia2[0]+"</td><td>"+zhuanjia2[1]+"</td><td>"+zhuanjia2[2]+"</td><td>"+zhuanjia2[3]+"</td><td>"+zhuanjia2[4]+"</td><td>"+zhuanjia2[5]+"</td><td>"+zhuanjia2[6]+"</td><td>"+zhuanjia2[7]+"</td><td>"+zhuanjia2[8]+"</td><td>"+zhuanjia2[9]+"</td><td>"+zhuanjia2[10]+"</td><td>"+zhuanjia2[11]+"</td><td>"+zhuanjia2[12]+"</td><td>"+zhuanjia2[13]+"</td></tr>");
+                                          $('#table5 tbody').append("<tr><td>"+zhuanjia2[14]+"</td><td>"+zhuanjia2[15]+"</td><td>"+zhuanjia2[16]+"</td><td>"+zhuanjia2[17]+"</td><td>"+zhuanjia2[18]+"</td><td>"+zhuanjia2[19]+"</td><td>"+zhuanjia2[20]+"</td><td>"+zhuanjia2[21]+"</td><td>"+zhuanjia2[22]+"</td><td>"+zhuanjia2[23]+"</td><td>"+zhuanjia2[24]+"</td><td>"+zhuanjia2[25]+"</td><td>"+zhuanjia2[26]+"</td><td>"+zhuanjia2[27]+"</td><td>"+zhuanjia2[28]+"</td><td>"+zhuanjia2[29]+"</td><td>"+zhuanjia2[30]+"</td><td>"+zhuanjia2[31]+"</td><td>"+zhuanjia2[32]+"</td><td>"+zhuanjia2[33]+"</td></tr>");  
+
+                                    }
+                              });
+</script>    
+</body>
+</html>

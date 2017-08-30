@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>委托课题进展情况</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body ng-app="AssertIndexApp">
+<div ng-controller="CoursecommissioninfoController">
+    <div  class="col-md-12">
+        <div class="bs-callout bs-callout-default">
+            <strong>委托课题进展情况</strong><small>--委托课题进展情况</small>
+        </div>
+        <div><commdatamgt dataset="dataset" options="showoption" form="CommDataEditForm" editinfo="CommDataEditInfo"></commdatamgt></div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:36345/d4b97b6ec5044f8aaa9c216bba70d2f3/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:36345/d4b97b6ec5044f8aaa9c216bba70d2f3/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:36345/d4b97b6ec5044f8aaa9c216bba70d2f3/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:36345/d4b97b6ec5044f8aaa9c216bba70d2f3/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:8332/a70a6e56a9a44b35b3653150bd39edba/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:8332/a70a6e56a9a44b35b3653150bd39edba/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+</body>
+</html>

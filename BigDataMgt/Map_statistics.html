@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>改革统计报表</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap3.2.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="css/font-awesome-4.2.0/css/font-awesome.min.css" type="text/css">
+    <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-local-storage.js"></script>
+    <script type="text/javascript" src="js/SampleApp.js" charset="gb2312"></script>
+    <script type="text/javascript" src="jquery-1.4.2.min.js"></script>   
+    <script type="text/javascript" src="jquery.PrintArea.js"></script>   
+    <script>
+         function printpage(){
+            window.print();
+        }
+    </script>
+
+    <style type="text/css">
+        #info{
+            position: absolute;
+            top:50px;
+            margin-left: 10%;
+            margin-right: 15%;
+            border-color: #708090;
+        }   
+        #back{
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            
+        }
+        table {
+            table-layout:fixed;
+        }
+
+
+        
+        td {text-align:center;
+            width:200px;
+            word-wrap: break-word;
+        }
+        h4 {text-align:center;
+            width:200px;
+            word-wrap: break-word;
+            background-color:#B0C4DE; 
+        }
+    </style>
+    <style media="print">
+         .Noprint { display: none }
+    </style>
+
+</head>
+<body ng-app="AssertIndexApp" >
+<div class="row">
+    <div  class="col-md-12">
+    <div id="back">
+        <button class="btn btn-primary" onclick="clickme()">后退</button></a>
+    </div><!-- back -->
+
+    <div id="info">
+        
+        <div class="bs-callout bs-callout-default col-lg-12 " >
+            <center><font size="5"><strong>改革统计报表</strong></font></center>
+        </div>
+        <tr>
+        <div>
+            <form class="bs-example bs-example-form col-md-12" role="form">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table  id="table-all">
+                            <thead>
+                             <!--    <tr>
+                                    <h4  style="background-color:#B0C4DE "><center>高考改革</center></h4>
+                                </tr> -->
+                            </thead>
+                            <tbody>
+                                <tr> 
+                                        <table class="table table-bordered" id="table1" >
+                                            <thead>
+                                                
+                                            </thead>
+                                            <tbody>
+                                            
+                                            </tbody>
+                                        </table>
+                                    
+                                </tr>
+
+                            </tbody>
+                         </table>    
+                    </div><!-- col-md-12 -->
+                </div> <!-- row -->
+               
+            </form>
+        </div>
+    </div>
+    </div>
+ </div>   
+<script type="text/javascript">
+        function clickme(){
+            window.location = "Map2.html";
+        }
+
+
+        $.ajax({
+            type:"GET",
+            url:"api/1.0/edu/system/account/countCityByReformcase",
+            dataType:"json",
+            async:true,
+            success:function(data){
+                var arr1 = [];
+                var arr2 = [];
+                var arr3 = [];
+                var area1 = new Array();
+                var area2 = new Array();
+                var area3 = new Array();
+                //console.log(data);
+                var reform=[];                        //获取改革的名称
+                for(var i=0;i<data.length;i++){
+                    if(data[i][0][0]!=null){
+                        reform.push(data[i][0][0].reformcase);
+                    }else if(data[i][1][0]!=null){
+                        reform.push(data[i][1][0].reformcase);
+                    }else if(data[i][2][0]!=null){
+                        reform.push(data[i][2][0].reformcase);
+                    }
+                }
+                // console.log(reform);
+                
+                for(var i=0;i<data.length;i++){    //各改革事项未启动的数量 
+                     arr1[i]=data[i][0].length;
+                     area1[i]=new Array();             //定义一个二维数组来存储各改革事项不同进度的具体城市
+                     for(var j=0;j<data[i][0].length;j++){          
+                        area1[i][j]=data[i][0][j].area;        //各改革事项进度为未启动的城市
+                        //console.log(area1);
+                     }
+
+                }
+                for(var i=0;i<data.length;i++){    //各改革事项进行中的数量 
+                    arr2[i]=data[i][1].length;
+                    area2[i]=new Array();             //定义一个二维数组来存储各改革事项不同进度的具体城市
+                     for(var j=0;j<data[i][1].length;j++){          
+                        area2[i][j]=data[i][1][j].area;        //各改革事项进度为进行中的城市
+                        //console.log(area2);
+                     }
+                    
+                }
+                for(var i=0;i<data.length;i++){    //各改革事项已完成的数量
+                    arr3[i]=data[i][2].length;
+                    area3[i]=new Array();             //定义一个二维数组来存储各改革事项不同进度的具体城市
+                     for(var j=0;j<data[i][2].length;j++){          
+                        area3[i][j]=data[i][2][j].area;        //各改革事项进度为已完成的城市
+                        //console.log(area3);
+                     }
+                    
+                }
+                for(var i=0;i<data.length;i++){
+                    $('#table1 tbody').append("<br>");
+                    $('#table1 tbody').append("<center><h4>"+reform[i]+"</h4></center>");                //改革的名称
+                    $('#table1 tbody').append("<tr><td>"+"未启动"+"</td><td>"+"进行中"+"</td><td>"+"已完成"+"</td></tr>"); 
+                    $('#table1 tbody').append("<tr><td>"+arr1[i]+"</td><td>"+arr2[i]+"</td><td>"+arr3[i]+"</td></tr>");   //改革各进度数量
+                    $('#table1 tbody').append("<tr><td>"+area1[i]+"</td><td>"+area2[i]+"</td><td>"+area3[i]+"</td></tr>");   //改革各进度数量代表的具体城市
+                    
+                }
+
+            },
+            error:function(){
+                console.log("http error");
+            }
+        });
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>事务字典管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+
+<body ng-app="AssertIndexApp">
+
+<div ng-controller="WorkMgtController">
+
+    <div class="col-md-12" >
+        <div class="bs-callout bs-callout-danger"><strong>事务字典管理</strong><small>--管理事务字典基础数据</small>
+            <button class="btn btn-xs btn-success" ng-show="WorkTable" ng-click="ShowAddWorkFrom()">添加事务字典</button>
+            <button class="btn btn-xs btn-primary" ng-show="WorkFrom" ng-click="ShowWorkTable()">查看事务字典列表</button>
+        </div>
+        <div ng-show="WorkTable">
+            <table datatable="" id="GetAllWorkTable" dt-options="GetAllWorkTable_dtOptions" dt-columns="GetAllWorkTable_dtColumns" class="row-border hover"></table>
+        </div>
+        <div ng-show="WorkFrom">
+
+                <div class="ModalBox col-md-12">
+                    <div class="col-md-6">
+                        <div  class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lg fa-sitemap fa-fw"></i></span>
+                            <input  type="text" class="form-control xh" ng-model="WorkInfo.wtype" ng-required="true" placeholder="事务类型">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div  class="input-group ">
+                            <span class="input-group-addon"><i class="fa fa-lg fa-clock-o fa-fw"></i></span>
+                            <input  type="text" class="form-control xh" ng-model="WorkInfo.wplanendtime" ng-required="true" placeholder="额定的完成天数">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="margin-bottom: 15px" class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-tasks fa-fw"></i></span>
+                            <select ng-options="m.ModuleName as m.ModuleName for m in GetSimpleModuleList" ng-model="WorkInfo.wHandleModule"
+                                   class="form-control">
+                                <option value="" selected>--请选择模块--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 15px;">
+                        <div
+                                isteven-multi-select
+                                selection-mode = "{{WorkInfo.wrole}}"
+                                input-model="GetSimpleRolesList" output-model="WorkInfo.wrole"
+                                default-label="请选择角色（可多选）" max-height="180px"
+                                button-label="RoleName" item-label="RoleName" tick-property="Status">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div  class="input-group ">
+                            <span class="input-group-addon"><i class="fa fa-lg fa-file-text fa-fw"></i></span>
+                            <textarea  type="text" class="form-control xh" ng-model="WorkInfo.wdescript" ng-required="true" cols="4" placeholder="事务描述"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn-success btn-md btn" ng-click="SubmitWorkInfo()">提交</button>
+                        <button class="btn-default btn-md btn" ng-click="ShowWorkTable()">取消</button>
+                    </div>
+                </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

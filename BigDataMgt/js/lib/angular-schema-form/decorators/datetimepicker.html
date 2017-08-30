@@ -1,0 +1,9 @@
+<div class="form-group" ng-class="{'has-error': hasError()}">
+    <label class="control-label" ng-show="showTitle()">{{form.title}}</label>
+    <date-picker
+            placeholder="from.placeholder"
+            ng-model="$$value$$"
+            style="background-color: white"
+            schema-validate="form"></date-picker>
+    <span class="help-block">{{ (hasError() && errorMessage(schemaError())) || form.description}}</span>
+</div>

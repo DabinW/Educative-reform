@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>文件管理子系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body ng-app="AssertIndexApp">
+<div ng-controller="FilemgtController">
+   <style>
+    .contain{margin: 10px 0 0 0;}
+    .main_hd {line-height:40px;overflow:hidden; border-bottom: 1px solid #e7e7eb; border:none;margin-top: 10px;}
+     .main_hd h2 {font-size: 18px;padding: 0 30px;color:#222;font-family: "微软雅黑"}
+    .title_tab {width: 100%;height: 43px;overflow: hidden; border-bottom: 1px solid  #e7e7eb;margin-top: 20px;}
+    .base-contain {margin-top: 20px;}
+    .table>thead>tr>th,.table>tbody>tr>td {text-align: center;vertical-align: middle;} 
+    /*分页样式*/
+    .page-list {float:right;}
+    .page-list .pagination span {cursor: pointer;}
+    .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+    .page-list .pagination .separate span:hover {background: none;}
+    .page-list .page-total {float:right; margin: 25px 20px;}
+    .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+    .page-list .page-total input {width: 40px; padding-left:3px;}
+    .page-list .page-total select {width: 50px;}  
+ 
+</style>
+<div class="contain">
+    <div class="main_hd row">
+        <h2>企业对接</h2>
+        <div class="title_tab ">
+            <div class="col-sm-8">
+                <div style="height:30px;margin-bottom:10px">
+                  <button   ng-click='back()' class="btn btn-info" style="height:30px">返回上一级</button>
+                </div>
+                <!-- <button class="btn btn-info" style="margin-bottom: 20px;margin-right: 15px;" data-toggle="modal"  data-target="#newFile" disabled="true">新建文件夹</button>
+                <button class="btn btn-info" style="margin-bottom: 20px;margin-right: 15px;" data-toggle="modal" data-target="#newNotice">新建通知文件夹</button>
+                <button class="btn btn-info" style="margin-bottom: 20px;margin-right: 15px;" data-toggle="modal" ng-click="getAgesofEmployees()" data-target="#ageNumCharts">查看通知</button> -->
+           </div>
+        </div>
+        
+    </div>
+    <!-- <div class="row" ui-view=""></div> -->
+    <div class="col-md-12 base-contain">
+        <div style="height:30px;margin-bottom:5px">
+         <!-- 切换按钮 -->
+        <button ng-repeat="li in fileManage.infos.arrNumber" ng-bind="li.name" ng-click='changeFolder(li)' class="btn btn-info" style="height:30px;border-radius:0 15px 15px 0"></button>
+        </div>
+
+        <table class="table table-striped table-responsive table-bordered" ng-if="fileManage.infos.isShow==1">
+          <thead>
+            <tr>
+              <th>通知名称</th>
+              <th>部门名称</th>
+              <th>开始时间</th>
+              <th>结束时间</th>
+              <th>负责人</th>
+              <!-- <th>创建时间</th> -->
+              <th>上传数量</th>
+              <th>操作</th>
+            </tr> 
+          </thead>
+          <tbody class="table-bordered">
+            <tr ng-repeat="list in fileManage.server.contents.list">
+              <input type="hidden" ng-model="list.directorySid"></input>
+              <td ng-bind="list.directoryName"></td>       
+              <td ng-bind="list.departmentName"></td>       
+              <td ng-bind="list.startDate"></td>       
+              <td ng-bind="list.endDate"></td>       
+              <td ng-bind="list.executorName"></td>       
+              <!-- <td ng-bind="list.updateTime"></td>        -->
+              <td ng-bind="list.uploadedSize"></td>       
+              <td>
+                  <button class="btn btn-warning" style="padding: 3px 6px;" title="上传通知" ng-click="uploadNotice(list)" ><span class="glyphicon glyphicon-upload"></span></button>
+                  <button class="btn btn-info" style="padding: 3px 6px;" title="查看" ng-click="showFolder(list,list.fileCollectionDirectorySid)" ><span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+                   <button class="btn btn-danger"  style="padding: 3px 6px;" ng-click="deleteNotice(list.directoryNo)" ><span class="glyphicon glyphicon-remove" title="删除"></span></button>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+      <table class="table table-striped table-responsive table-bordered" ng-if="fileManage.infos.isShow==2">
+          <thead>
+            <tr>
+              <th>文件名</th>
+              <th>创建人姓名</th>
+              <th>创建人编号</th>
+              <!-- <th>创建时间</th> -->
+              <th>操作</th>
+            </tr> 
+          </thead>
+          <tbody class="table-bordered">
+            <tr ng-repeat="list in fileManage.server.contents.list">
+              <td ng-bind="list.fileName"></td>
+              <td ng-bind="list.updateWriterName"></td>       
+              <td ng-bind="list.updateWriterNo"></td>
+              <!-- <td ng-bind="list.updateTime"></td> -->
+              <td>
+                  <a href="{{list.filePath}}"  target="_blank" class="btn btn-info glyphicon glyphicon-download-alt " style="padding: 3px 6px;"></a>
+                  <!-- <button class="btn btn-info" style="padding: 3px 6px;" title="下载文件" ><a href="{{list.filePath}}"  download="" target="_blank" class="glyphicon glyphicon-download-alt"></a></button> -->
+                   <button class="btn btn-danger"  style="padding: 3px 6px;" ng-click="deleteFile(list)" ><span class="glyphicon glyphicon-remove" title="删除"></span></button>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+      <tm-pagination conf="paginationConf"></tm-pagination>
+    </div>
+</div>
+</div>
+
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:33293/59787960d9a24d6ca4e383af3c142596/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:35683/d99402de7b4f4257bcb88de7829263b9/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:35683/d99402de7b4f4257bcb88de7829263b9/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:2943/fbd48b8152324e5fbc6c6f5ed5a5d727/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:2943/fbd48b8152324e5fbc6c6f5ed5a5d727/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>工作流管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body ng-app="AssertIndexApp">
+
+<div ng-controller="WorkFlowMgtController">
+<div  class="col-md-12">
+    <div class="bs-callout bs-callout-default">
+        <strong>工作流管理</strong><small>--工作流的定义、修改管理。</small>
+    </div>
+    <div ng-show="pageshow.WorkFlowmgt">
+        <div class="col-md-12" ng-show="pageshow.mainbutton">
+            <button ng-show="pageshow.mbutton.addbutton" class="btn btn-success" ng-click="WorkFlowAdd()">添加数据集</button>
+            <button ng-show="pageshow.mbutton.addbutton" class="btn btn-success" ng-click="WorkFlowImport()">导入数据集</button>
+        </div>
+        <div class="col-md-12" ng-show="pageshow.datesetedit">
+            <div class="col-md-12 col-xs-12">
+                <form sf-schema="WorkFlowInfoSchema" sf-form="WorkFlowInfoEditForm" sf-model="WorkFlowInfoModel" sf-options="{ validationMessage: { 302: '该字段不能为空!' }}"></form>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="pageshow.WorkFlowTable">
+            <table ng-if="WorkFlowInfoList_dtOptions!=null" datatable="" id="WorkFlowInfoListTable" dt-options="WorkFlowInfoList_dtOptions" dt-columns="WorkFlowInfoList_dtColumns" class="row-border hover"></table>
+        </div>
+        <div ng-show="pageshow.WorkFlowimport"><commimport as-dataset="ImportWorkFlowName" exit="reloadWorkFlowTable()"></commimport></div>
+    </div>
+
+    <div ng-show="pageshow.StatuFlowsmgt">
+        <div><h4>【{{WorkFlowInfoModel.Method}}】数据集列管理</h4>
+        <div ng-show="pageshow.StatuFlowsmainbutton">
+            <button class="btn btn-success" ng-click="StatuFlowAdd()">添加列</button>
+            <button class="btn btn-error" ng-click="WorkFlowGoback()">返回数据集</button>
+        </div></div>
+        <div class="col-md-12" ng-show="pageshow.StatuFlowedit">
+            <div class="col-md-12 col-xs-12">
+                <form sf-schema="StatuFlowInfoSchema" sf-form="StatuFlowInfoEditForm" sf-model="StatuFlowInfoModel" sf-options="{ validationMessage: { 302: '该字段不能为空!' }}"></form>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="pageshow.StatuFlowTable">
+            <table ng-if="StatuFlowInfoList_dtOptions!=null" datatable="" id="StatuFlowInfoListTable" dt-options="StatuFlowInfoList_dtOptions" dt-columns="StatuFlowInfoList_dtColumns" class="row-border hover"></table>
+        </div>
+        <div ng-show="pageshow.StatuFlowimport"><commimport as-dataset="ImportStatuFlowName" exit="reloadStatuFlowTable()"></commimport></div>
+    </div>
+</div>
+</div>
+</body>
+</html>

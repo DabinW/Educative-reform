@@ -1,0 +1,721 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>统计图</title>
+    
+   <script src="js/china.js" charset="utf-8"></script>
+      <style type="text/css">
+           #main4{
+            position: absolute;
+            left: 900px;
+            top: 10px;
+
+           }
+           #position1{
+            border: 0px solid;
+            width:500px;
+            height:400px;
+            top:320px;
+            left:950px;
+            position: absolute;
+         }
+         #pie3{
+            position: absolute；
+            top:540px;
+            left:150px;
+
+        }
+        #pie3_2{
+            position: absolute;
+            top:200px;
+            left:30px;
+        }
+         #pie3_3{
+            position: absolute;
+            top:200px;
+            left:280px;
+
+        }
+       </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body ng-app="AssertIndexApp" style="height:600px; width: 1250px; margin: 0">
+ 
+    <div  class="col-md-12">
+        <div class="bs-callout bs-callout-default">
+            <strong>重点事项改革统计图</strong>   
+        </div>
+      
+       <div id="container4" style="height: 600px; width:800px;"></div>
+       <div id="main4" style="width: 560px;height:300px;"></div>
+    <script type="text/javascript">
+       
+	function getcharts(){
+		$.ajax({
+			type:"POST",
+			data:"重点事项改革",
+			url:"api/1.0/edu/system/account/getReformMesBycity2",
+			dataType:"json",
+			async:true,
+			success:function(data){
+ 			        
+					var reform1 = [];//未启动
+					var reform2 = [];//进行中
+					var reform3 = [];//已完成
+    for (var i = 0;i<=data[0].length - 1; i++) {
+	  	switch(data[0][i].area){
+	  		case "北京": reform1[0]=data[0][i].count; break;
+	  		case "天津": reform1[1]=data[0][i].count; break;
+	  		case "上海": reform1[2]=data[0][i].count; break;
+	  		case "重庆": reform1[3]=data[0][i].count; break;
+	  		case "河北": reform1[4]=data[0][i].count; break;
+	  		case "河南": reform1[5]=data[0][i].count; break;
+	  		case "云南": reform1[6]=data[0][i].count; break;
+	  		case "辽宁": reform1[7]=data[0][i].count; break;
+	  		case "黑龙江": reform1[8]=data[0][i].count; break;
+	  		case "湖南": reform1[9]=data[0][i].count; break;
+	  		case "安徽": reform1[10]=data[0][i].count; break;
+	  		case "山东": reform1[11]=data[0][i].count; break;
+	  		case "新疆": reform1[12]=data[0][i].count; break;
+	  		case "新疆生产建设兵团": reform1[13]=data[0][i].count; break;
+	  		case "江苏": reform1[14]=data[0][i].count; break;
+	  		case "浙江": reform1[15]=data[0][i].count; break;
+	  		case "宁波": reform1[16]=data[0][i].count; break;
+	  		case "江西": reform1[17]=data[0][i].count; break;
+	  		case "湖北": reform1[18]=data[0][i].count; break;
+	  		case "广西": reform1[19]=data[0][i].count; break;
+	  		case "甘肃": reform1[20]=data[0][i].count; break;
+	  		case "山西": reform1[21]=data[0][i].count; break;
+	  		case "内蒙古": reform1[22]=data[0][i].count; break;
+	  		case "陕西": reform1[23]=data[0][i].count; break;
+	  		case "吉林": reform1[24]=data[0][i].count; break;
+	  		case "福建": reform1[25]=data[0][i].count; break;
+	  		case "厦门": reform1[26]=data[0][i].count; break;
+	  		case "贵州": reform1[27]=data[0][i].count; break; 
+	  		case "广东": reform1[28]=data[0][i].count; break;
+	  		case "青海": reform1[29]=data[0][i].count; break;
+	  		case "西藏": reform1[30]=data[0][i].count; break;
+	  		case "四川": reform1[31]=data[0][i].count; break;
+	  		case "宁夏": reform1[32]=data[0][i].count; break;
+	  		case "海南": reform1[33]=data[0][i].count; break;
+	  		case "台湾": reform1[34]=data[0][i].count; break;
+	  		case "香港": reform1[35]=data[0][i].count; break;
+	  		case "澳门": reform1[36]=data[0][i].count; break;
+            case "青岛": reform1[37]=data[0][i].count; break;
+            case "大连": reform1[38]=data[0][i].count; break;
+            case "深圳": reform1[39]=data[0][i].count; break;
+	  	}
+
+}
+
+
+
+
+   for (var i = 0;i<=data[1].length-1; i++) {
+	  	switch(data[1][i].area){
+	  		case "北京": reform2[0]=data[1][i].count; break;
+	  		case "天津": reform2[1]=data[1][i].count;  break;
+	  		case "上海": reform2[2]=data[1][i].count; break;
+	  		case "重庆": reform2[3]=data[1][i].count; break;
+	  		case "河北": reform2[4]=data[1][i].count; break;
+	  		case "河南": reform2[5]=data[1][i].count; break;
+	  		case "云南": reform2[6]=data[1][i].count; break;
+	  		case "辽宁": reform2[7]=data[1][i].count; break;
+	  		case "黑龙江": reform2[8]=data[1][i].count; break;
+	  		case "湖南": reform2[9]=data[1][i].count; break;
+	  		case "安徽": reform2[10]=data[1][i].count; break;
+	  		case "山东": reform2[11]=data[1][i].count; break;
+	  		case "新疆": reform2[12]=data[1][i].count; break;
+	  		case "新疆生产建设兵团": reform2[13]=data[1][i].count; break;
+	  		case "江苏": reform2[14]=data[1][i].count; break;
+	  		case "浙江": reform2[15]=data[1][i].count; break;
+	  		case "宁波": reform2[16]=data[1][i].count; break;
+	  		case "江西": reform2[17]=data[1][i].count; break;
+	  		case "湖北": reform2[18]=data[1][i].count; break;
+	  		case "广西": reform2[19]=data[1][i].count; break;
+	  		case "甘肃": reform2[20]=data[1][i].count; break;
+	  		case "山西": reform2[21]=data[1][i].count; break;
+	  		case "内蒙古": reform2[22]=data[1][i].count; break;
+	  		case "陕西": reform2[23]=data[1][i].count; break;
+	  		case "吉林": reform2[24]=data[1][i].count; break;
+	  		case "福建": reform2[25]=data[1][i].count; break;
+	  		case "厦门": reform2[26]=data[1][i].count; break;
+	  		case "贵州": reform2[27]=data[1][i].count; break;
+	  		case "广东": reform2[28]=data[1][i].count; break;
+	  		case "青海": reform2[29]=data[1][i].count; break;
+	  		case "西藏": reform2[30]=data[1][i].count; break;
+	  		case "四川": reform2[31]=data[1][i].count; break;
+	  		case "宁夏": reform2[32]=data[1][i].count; break;
+	  		case "海南": reform2[33]=data[1][i].count; break;
+	  		case "台湾": reform2[34]=data[1][i].count; break;
+	  		case "香港": reform2[35]=data[1][i].count; break;
+	  		case "澳门": reform2[36]=data[1][i].count; break;
+            case "青岛": reform2[37]=data[1][i].count; break;
+            case "大连": reform2[38]=data[1][i].count; break;
+            case "深圳": reform2[39]=data[1][i].count; break;
+	  	}
+
+}
+
+
+for (var i = 0;i<=data[2].length - 1; i++) {
+	  	switch(data[2][i].area){
+	  		case "北京": reform3[0]=data[2][i].count; break;
+	  		case "天津": reform3[1]=data[2][i].count; break;
+	  		case "上海": reform3[2]=data[2][i].count; break;
+	  		case "重庆": reform3[3]=data[2][i].count; break;
+	  		case "河北": reform3[4]=data[2][i].count; break;
+	  		case "河南": reform3[5]=data[2][i].count; break;
+	  		case "云南": reform3[6]=data[2][i].count; break;
+	  		case "辽宁": reform3[7]=data[2][i].count; break;
+	  		case "黑龙江": reform3[8]=data[2][i].count; break;
+	  		case "湖南": reform3[9]=data[2][i].count; break;
+	  		case "安徽": reform3[10]=data[2][i].count; break;
+	  		case "山东": reform3[11]=data[2][i].count; break;
+	  		case "新疆": reform3[12]=data[2][i].count; break;
+	  		case "新疆生产建设兵团": reform3[13]=data[2][i].count; break;
+	  		case "江苏": reform3[14]=data[2][i].count; break;
+	  		case "浙江": reform3[15]=data[2][i].count; break;
+	  		case "宁波": reform3[16]=data[2][i].count; break;
+	  		case "江西": reform3[17]=data[2][i].count; break;
+	  		case "湖北": reform3[18]=data[2][i].count; break;
+	  		case "广西": reform3[19]=data[2][i].count; break;
+	  		case "甘肃": reform3[20]=data[2][i].count; break;
+	  		case "山西": reform3[21]=data[2][i].count; break;
+	  		case "内蒙古": reform3[22]=data[2][i].count; break;
+	  		case "陕西": reform3[23]=data[2][i].count; break;
+	  		case "吉林": reform3[24]=data[2][i].count; break;
+	  		case "福建": reform3[25]=data[2][i].count; break;
+	  		case "厦门": reform3[26]=data[2][i].count; break;
+	  		case "贵州": reform3[27]=data[2][i].count; break;
+	  		case "广东": reform3[28]=data[2][i].count; break;
+	  		case "青海": reform3[29]=data[2][i].count; break;
+	  		case "西藏": reform3[30]=data[2][i].count; break;
+	  		case "四川": reform3[31]=data[2][i].count; break;
+	  		case "宁夏": reform3[32]=data[2][i].count; break;
+	  		case "海南": reform3[33]=data[2][i].count; break;
+	  		case "台湾": reform3[34]=data[2][i].count; break;
+	  		case "香港": reform3[35]=data[2][i].count; break;
+	  		case "澳门": reform3[36]=data[2][i].count; break;
+            case "青岛": reform3[37]=data[2][i].count; break;
+            case "大连": reform3[38]=data[2][i].count; break;
+            case "深圳": reform3[39]=data[2][i].count; break;
+	  	}
+
+}
+
+
+ var dom1 = document.getElementById("main4");
+       var myChart1 = echarts.init(dom1);
+
+        // 指定图表的配置项和数据
+        var option1 = {
+            title: {
+                text: ''
+            },
+            tooltip: {},
+            legend: {
+                data:['未启动','进行中','已完成']
+            },
+            xAxis: {
+                data: ["宁波","厦门","青岛","大连","深圳","新疆生产建设兵团"]
+            },
+            yAxis: {},
+            series: [{
+                name: '未启动',
+                type: 'bar',
+                data: [reform1[16], reform1[26], reform1[37], reform1[38], reform1[39], reform1[13]]
+            },
+            {
+                name: '进行中',
+                type: 'bar',
+                data: [reform2[16], reform2[26], reform2[37], reform2[38], reform2[39], reform2[13]]
+            },
+             {
+                name: '已完成',
+                type: 'bar',
+                data: [reform3[16], reform3[26], reform3[37], reform3[38], reform3[39], reform3[13]]
+            }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart1.setOption(option1);
+
+
+
+
+
+
+
+
+
+
+
+
+ 		
+
+
+
+var dom = document.getElementById("container4");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+function randomData() {
+    return Math.round(Math.random()*1000);
+}
+
+option = {
+    title: {
+        text: ' 重点事项改革信息分布',
+        subtext: '',
+        left: 'center'
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data:['未启动','进行中','已完成']
+    },
+    visualMap: {
+        min: 0,
+        max: 20,
+        left: 'left',
+        top: 'bottom',
+        text: ['高','低'],           // 文本，默认为数值文本
+        calculable: true
+    },
+   toolbox: {
+        show: true,
+        orient: 'vertical',
+        left: 'right',
+        top: 'center',
+        feature: {
+            dataView: {readOnly: false},
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    series: [
+        {
+            name: '未启动',
+            type: 'map',
+            mapType: 'china',
+            roam: false,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data:[
+                {name: '北京',value: reform1[0]||0},
+                {name: '天津',value: reform1[1]||0},
+                {name: '上海',value: reform1[2]||0},
+                {name: '重庆',value: reform1[3]||0},
+                {name: '河北',value: reform1[4]||0},
+                {name: '河南',value: reform1[5]||0},
+                {name: '云南',value: reform1[6]||0},
+                {name: '辽宁',value: reform1[7]||0},
+                {name: '黑龙江',value: reform1[8]||0},
+                {name: '湖南',value: reform1[9]||0},
+                {name: '安徽',value: reform1[10]||0},
+                {name: '山东',value: reform1[11]||0},
+                {name: '新疆',value: reform1[12] ||0},
+                   {name: '新疆生产建设兵团',value: reform1[13]||0},
+                {name: '江苏',value:reform1[14]||0},
+                {name: '浙江',value:reform1[15]||0},
+                   {name: '宁波',value: reform1[16]||0 },
+                {name: '江西',value: reform1[17]||0},
+                {name: '湖北',value: reform1[18]||0 },
+                {name: '广西',value: reform1[19]||0},
+                {name: '甘肃',value: reform1[20]||0},
+                {name: '山西',value: reform1[21]||0},
+                {name: '内蒙古',value: reform1[22]||0 },
+                {name: '陕西',value: reform1[23]||0},
+                {name: '吉林',value:reform1[24]||0 },
+                {name: '福建',value: reform1[25]||0 },
+                  {name: '厦门',value: reform1[26]||0 },
+                {name: '贵州',value: reform1[27]||0 },
+                {name: '广东',value: reform1[28]||0 },
+                {name: '青海',value: reform1[29]||0},
+                {name: '西藏',value: reform1[30]||0},
+                {name: '四川',value: reform1[31]||0 },
+                {name: '宁夏',value: reform1[32]||0 },
+                {name: '海南',value: reform1[33]||0 },
+                {name: '台湾',value: reform1[34]||0},
+                {name: '香港',value: reform1[35]||0 },
+                {name: '澳门',value: reform1[36]||0 }
+            ]
+        },   
+         {
+            name: '进行中',
+            type: 'map',
+            mapType: 'china',
+            roam: false,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data:[
+                {name: '北京',value: reform2[0]||0},
+                {name: '天津',value: reform2[1]||0},
+                {name: '上海',value: reform2[2]||0},
+                {name: '重庆',value: reform2[3]||0},
+                {name: '河北',value: reform2[4]||0},
+                {name: '河南',value: reform2[5]||0},
+                {name: '云南',value: reform2[6]||0},
+                {name: '辽宁',value: reform2[7]||0},
+                {name: '黑龙江',value: reform2[8]||0},
+                {name: '湖南',value: reform2[9]||0},
+                {name: '安徽',value: reform2[10]||0},
+                {name: '山东',value: reform2[11]||0},
+                {name: '新疆',value: reform2[12] ||0},
+                   {name: '新疆生产建设兵团',value: reform2[13]||0},
+                {name: '江苏',value:reform2[14]||0},
+                {name: '浙江',value:reform2[15]||0},
+                   {name: '宁波',value: reform2[16]||0 },
+                {name: '江西',value: reform2[17]||0},
+                {name: '湖北',value: reform2[18]||0 },
+                {name: '广西',value: reform2[19]||0},
+                {name: '甘肃',value: reform2[20]||0},
+                {name: '山西',value: reform2[21]||0},
+                {name: '内蒙古',value: reform2[22]||0 },
+                {name: '陕西',value: reform2[23]||0},
+                {name: '吉林',value:reform2[24]||0 },
+                {name: '福建',value: reform2[25]||0 },
+                  {name: '厦门',value: reform2[26]||0 },
+                {name: '贵州',value: reform2[27]||0 },
+                {name: '广东',value: reform2[28]||0 },
+                {name: '青海',value: reform2[29]||0},
+                {name: '西藏',value: reform2[30]||0},
+                {name: '四川',value: reform2[31]||0 },
+                {name: '宁夏',value: reform2[32]||0 },
+                {name: '海南',value: reform2[33]||0 },
+                {name: '台湾',value: reform2[34]||0},
+                {name: '香港',value: reform2[35]||0 },
+                {name: '澳门',value: reform2[36]||0 }
+            ]
+        },   
+         {
+            name: '已完成',
+            type: 'map',
+            mapType: 'china',
+            roam: false,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data:[
+                {name: '北京',value: reform3[0]||0},
+                {name: '天津',value: reform3[1]||0},
+                {name: '上海',value: reform3[2]||0},
+                {name: '重庆',value: reform3[3]||0},
+                {name: '河北',value: reform3[4]||0},
+                {name: '河南',value: reform3[5]||0},
+                {name: '云南',value: reform3[6]||0},
+                {name: '辽宁',value: reform3[7]||0},
+                {name: '黑龙江',value: reform3[8]||0},
+                {name: '湖南',value: reform3[9]||0},
+                {name: '安徽',value: reform3[10]||0},
+                {name: '山东',value: reform3[11]||0},
+                {name: '新疆',value: reform3[12] ||0},
+                {name: '新疆生产建设兵团',value: reform3[13]||0},
+                {name: '江苏',value:reform3[14]||0},
+                {name: '浙江',value:reform3[15]||0},
+                {name: '宁波',value: reform3[16]||0 },
+                {name: '江西',value: reform3[17]||0},
+                {name: '湖北',value: reform3[18]||0 },
+                {name: '广西',value: reform3[19]||0},
+                {name: '甘肃',value: reform3[20]||0},
+                {name: '山西',value: reform3[21]||0},
+                {name: '内蒙古',value: reform3[22]||0 },
+                {name: '陕西',value: reform3[23]||0},
+                {name: '吉林',value:reform3[24]||0 },
+                {name: '福建',value: reform3[25]||0 },
+                {name: '厦门',value: reform3[26]||0 },
+                {name: '贵州',value: reform3[27]||0 },
+                {name: '广东',value: reform3[28]||0 },
+                {name: '青海',value: reform3[29]||0},
+                {name: '西藏',value: reform3[30]||0},
+                {name: '四川',value: reform3[31]||0 },
+                {name: '宁夏',value: reform3[32]||0 },
+                {name: '海南',value: reform3[33]||0 },
+                {name: '台湾',value: reform3[34]||0},
+                {name: '香港',value: reform3[35]||0 },
+                {name: '澳门',value: reform3[36]||0 }
+            ]
+        },   
+    ]
+};
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+   
+			},
+			error:function(){
+				console.log("http error");
+			}
+		})
+	}
+getcharts();
+
+    </script>
+      
+    <div id="position1">
+            <div id="pie3" style="width: 200px;height:200px; border: 0px solid" ></div>
+            <div id="pie3_2" style="width: 200px;height:200px; border: 0px solid" ></div>
+            <div id="pie3_3" style="width: 200px;height:200px; border: 0px solid" ></div>
+    </div>
+    
+    <script type="text/javascript">
+
+         function getcharts(){
+         	var  result = {"schedule":"已完成","reformcase":"重点事项改革"};
+         	var result1= JSON.stringify(result);
+        $.ajax({
+            type:"POST",
+            url:"api/1.0/edu/system/account/getReformMesBycity",
+            data:result1,
+            dataType:"json",
+            async:true,
+            success:function(data){
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('pie3'));
+        
+
+        // 指定图表的配置项和数据
+       
+              var pie3 = {
+                        title : {
+                            text: '已完成比例分布',
+                            subtext: '',
+                            x:'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b}: {c} ({d}%)"
+                        },
+                        legend: {
+                                //  orient: 'vertical',
+                            x: 'left',
+                            //data:['东部','中部','西部',]
+                        },
+                        series: [
+                            {
+                                name:'已完成比率',
+                                type:'pie',
+                                //selectedMode: 'single',
+                                center: ['50%','55%'],//控制位置
+                                radius: [0, '75%'],//控制大小
+
+                                label: {
+                                    normal: {
+                                        position: 'inner'
+                                    }
+                                },
+                                labelLine: {
+                                    normal: {
+                                        show: false
+                                    }
+                                },
+                                data:[
+                                    {value:data[1][0].count||0, name:'东部'},
+                                    {value:data[0][0].count||0, name:'中部'},
+                                    {value:data[2][0].count||0, name:'西部'}
+                                ]
+                            },
+
+                        ]
+                    };
+
+
+
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(pie3);
+       
+        },
+            error:function(){
+                console.log("http error");
+            }
+        })
+    }
+getcharts();
+                   
+    </script>
+
+
+    <script type="text/javascript">
+
+         function getcharts2(){
+         	var  result = {"schedule":"进行中","reformcase":"重点事项改革"};
+         	var result1= JSON.stringify(result);
+        $.ajax({
+            type:"POST",
+            url:"api/1.0/edu/system/account/getReformMesBycity",
+            data:result1,
+            dataType:"json",
+            async:true,
+            success:function(data){
+    
+        // 基于准备好的dom，初始化echarts实例
+     var myChart2 = echarts.init(document.getElementById('pie3_2'));
+      
+       
+              option = {
+                        title : {
+                            text: '进行中比例分布',
+                            subtext: '',
+                            x:'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b}: {c} ({d}%)"
+                        },
+                        legend: {
+                                //  orient: 'vertical',
+                            x: 'left',
+                            //data:['东部','中部','西部',]
+                        },
+                        series: [
+                            {
+                                name:'进行中比率',
+                                type:'pie',
+                                //selectedMode: 'single',
+                                center: ['50%','55%'],//控制位置
+                                radius: [0, '75%'],//控制大小
+
+                                label: {
+                                    normal: {
+                                        position: 'inner'
+                                    }
+                                },
+                                labelLine: {
+                                    normal: {
+                                        show: false
+                                    }
+                                },
+                                data:[
+                                    {value:data[1][0].count||0, name:'东部'},
+                                    {value:data[0][0].count||0, name:'中部'},
+                                    {value:data[2][0].count||0, name:'西部'}
+                                ]
+                            },
+
+                        ]
+                    };
+
+
+
+        myChart2.setOption(option);
+       
+        },
+            error:function(){
+                console.log("http error");
+            }
+        })
+    }
+getcharts2();
+                   
+    </script>
+
+
+
+
+
+    <script type="text/javascript">
+
+         function getcharts3(){
+            var  result = {"schedule":"未启动","reformcase":"重点事项改革"};
+            var result1= JSON.stringify(result);
+        $.ajax({
+            type:"POST",
+            url:"api/1.0/edu/system/account/getReformMesBycity",
+            data:result1,
+            dataType:"json",
+            async:true,
+            success:function(data){
+    
+        // 基于准备好的dom，初始化echarts实例
+     var myChart3 = echarts.init(document.getElementById('pie3_3'));
+     
+       
+              option = {
+                        title : {
+                            text: '未启动比例分布',
+                            subtext: '',
+                            x:'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b}: {c} ({d}%)"
+                        },
+                        legend: {
+                                
+                            x: 'left',
+                           // data:['东部','中部','西部',]
+                        },
+                        series: [
+                            {
+                                name:'未启动比率',
+                                type:'pie',
+                                //selectedMode: 'single',
+                                center: ['50%','55%'],//控制位置
+                                radius: [0, '75%'],//控制大小
+
+                                label: {
+                                    normal: {
+                                        position: 'inner'
+                                    }
+                                },
+                                labelLine: {
+                                    normal: {
+                                        show: false
+                                    }
+                                },
+                                data:[
+                                    {value:data[1][0].count||0, name:'东部'},
+                                    {value:data[0][0].count||0, name:'中部'},
+                                    {value:data[2][0].count||0, name:'西部'}
+                                ]
+                            },
+
+                        ]
+                    };
+
+
+        myChart3.setOption(option);
+       
+        },
+            error:function(){
+                console.log("http error");
+            }
+        })
+    }
+getcharts3();
+                   
+    </script>
+
+
+
+    </div>
+
+</body>
+</html>

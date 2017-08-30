@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>用户登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap3.2.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="css/font-awesome-4.2.0/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="js/indexjs/index.css" type="text/css">
+    <link rel="stylesheet" href="css/my_css.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrapmodal/css/bootstrap-modal-bs3patch.css" />
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrapmodal/css/bootstrap-modal.css" />
+
+    <script type="text/javascript" src="js/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="js/lib/datatables/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript" src="js/lib/datatables/datatables-fixedcolumns/js/dataTables.fixedColumns.js"></script>
+    <script type="text/javascript" src="js/lib/datatables/datatables-scroller/js/dataTables.scroller.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/match-media.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-resource.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="js/lib/ui-select-master/dist/select.min.js"></script>
+
+
+    <script type="text/javascript" src="js/lib/angular-datatables/angular-datatables.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-datatables/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-datatables/plugins/fixedcolumns/angular-datatables.fixedcolumns.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-datatables/plugins/scroller/angular-datatables.scroller.min.js"></script>
+    <script type="text/javascript" src="js/lib/datatables/TableTools/js/dataTables.tableTools.js"></script>
+    <script type="text/javascript" src="js/lib/angular-datatables/plugins/tabletools/angular-datatables.tabletools.min.js"></script>
+
+    <script type="text/javascript" src="js/lib/angular-1.3.15/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-local-storage.js"></script>
+
+    <script type="text/javascript" src="js/indexjs/navbar.js"></script>
+    <script type="text/javascript" src="js/login.js"  charset="gb2312"></script>
+
+</head>
+<body id="ng-app" class="ng-app:LoginApp"  ng-app="LoginApp" ng-controller="LoginCtrl">
+<div  class="navbar navbar-inverse navbar-fixed-top" id="navbox_login">
+    <div class="container">
+        <div class="navbar-header-collepe"><a class="fa fa-bars expand-toc-icon pull-left" href="#"></a></div>
+        <div class="navbar-header">
+            <i class="glyphicon glyphicon-barcode" style="color: #f0ad4e"></i> <strong>教育综合改革信息管理系统</strong>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation" style="height: 1px;">
+            <ul class="nav navbar-nav nav-spans navbar-right">
+                <li><i class="glyphicon glyphicon-globe"></i> 中南民族大学</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<h1></h1>
+<div class="container">
+    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info" >
+            <div class="panel-heading">
+                <div class="panel-title"><strong>用户登录</strong></div>
+                <!--<div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">忘记密码?</a></div>-->
+            </div>
+            <div style="padding-top:30px" class="panel-body" >
+                <div ng-show="loginerrorshow" id="login-alert" ng-cloak class="ng-cloak alert alert-warning col-sm-12"><span ng-bind="errors.loginerror"></span></div>
+                <form id="loginform" name="loginform" class="form-horizontal" role="form">
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" class="form-control" ng-model="loginInfo.username" placeholder="教工工号或学生学号">
+                    </div>
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input type="password"  class="form-control" ng-model="loginInfo.password" ng-keypress="FormKeyPress($event,loginform.$valid)" placeholder="登录密码">
+                    </div>
+                    <div class="input-group">
+                        <div class="checkbox">
+                            <label>
+                                <!--<input type="checkbox" ng-model="loginInfo.ifremenberme">-->30分钟内无操作，进入系统需重新登录……
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:10px" class="form-group">
+                        <!-- Button -->
+                        <div class="col-sm-12 controls">
+                            <a ng-click="login(loginform.$valid)"  class="btn btn-success">登录</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AlertDialog" class="modal fade" tabindex="-1"  style="display: none;">
+    <div class="modal-body">
+        <p>{{AlertDialog.AlertDialogMessage}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-primary">确定</button>
+    </div>
+</div>
+
+<div  class="navbar-fixed-bottom">
+    <div class="container">
+        <p class="navbar-text" style="float: none; text-align: center;"> <a href="http://gzc.scuec.edu.cn">中南民族大学  Copyright © 2017 </a></p>
+    </div>
+</div>
+</body>
+
+
+</html>

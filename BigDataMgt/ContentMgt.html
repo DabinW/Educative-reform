@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>网站内容管理</title>
+
+<!--    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap3.2.0/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrapmodal/css/bootstrap-modal-bs3patch.css" />
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrapmodal/css/bootstrap-modal.css" />-->
+    <link rel="stylesheet" type="text/css" href="css/AssertMgt.css" />
+
+</head>
+<body id="ng-app" class="ng-app:AssertIndexApp" ng-app="AssertIndexApp">
+<div ng-controller="ContentMgtController">
+<div class="col-md-12">
+    <div class="bs-callout bs-callout-danger">
+    <strong>网站基本内容编辑</strong><small>--网站首页各类内容的编辑</small>
+    <button class="btn btn-sm btn-primary" ng-click="ContentInfoAdd()">添加内容</button>
+    </div>
+
+
+ <div class="panel panel-default"  collapse="isCollapseList">
+ <div class="panel-heading">已经登记信息列表</div>
+ <!--<table class="table" >-->
+ <!--<tbody  ng-repeat="content in ContentList">-->
+ <!--<tr>-->
+ <!--<td><strong>{{content.Title}}</strong></td>-->
+ <!--<td><small><span>编制人：{{content.Creator}}</span><span>-编制时间：{{content.CreateTime}}</span> </small></td>-->
+ <!--<td>   -->
+   <!--<div class="btn-group btn-group-xs">-->
+        <!--<button type="button" class="btn btn-primary" ng-click="ContentInfoModify(content._id)">修改</button>-->
+        <!--<button type="button" class="btn btn-danger" ng-click="DelContentInfo(content._id)">删除</button>-->
+   <!--</div>-->
+ <!--</td>-->
+ <!--</tr>-->
+ <!--</tbody>-->
+ <!--</table>-->
+     <table  datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="row-border hover">
+         <thead>
+         <tr>
+             <th>#</th>
+             <th>标题</th>
+             <th class="">编制人</th>
+             <th>编制时间</th>
+             <th>操作</th>
+         </tr>
+         </thead>
+         <tbody>
+         <tr ng-repeat="m in ContentList">
+             <td>{{$index+1}}</td>
+             <td>{{m.Title}}</td>
+             <td class="">{{m.Creator||"无"}}</td>
+             <td>{{m.CreateTime||"无"}}</td>
+             <td>
+                 <button type="button" class="btn btn-primary" ng-click="ContentInfoModify(m._id)">修改</button>
+                 <button type="button" class="btn btn-danger" ng-click="DelContentInfo(m._id)">删除</button>
+             </td>
+         </tr>
+         </tbody>
+     </table>
+ </div>
+
+
+
+</div>
+<div class="col-md-12" collapse="isCollapseDetail">
+    <form class="form-horizontal" name="ContentEditForm" >
+        <div class="panel panel-success">
+            <div class="panel-heading">内容编辑</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">内容类别</label>
+                    <div class="col-md-3">
+                        <select ng-options="m.value as m.value for m in ContentTags" ng-model="ContentInfo.tags" ng-change="ContentTagsChange()"  class="form-control">
+                            <option value="">-- 选择内容类型 --</option>
+                        </select>
+                    </div>
+                    <label class="col-md-2 control-label" >标题</label>
+                    <div class="col-md-3">
+                        <input   type="text" ng-required="true" ng-model="ContentInfo.title"  placeholder="标题名称" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">内容概要</label>
+                    <div class="col-md-8">
+                        <textarea class="form-control" ng-model="ContentInfo.summary" placeholder="内容的简单概要..." rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" >外部链接</label>
+                    <div class="col-md-3">
+                        <input   type="text" ng-model="ContentInfo.outerLink" placeholder="http://" class="form-control">
+                    </div>
+                    <label class="col-md-2 control-label">内容来源</label>
+                    <div class="col-md-3">
+                        <input   type="text" ng-model="ContentInfo.sourceFrom"  placeholder="来源" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" >内容实体</label>
+                    <div class="col-md-10">
+                        <textarea  ng-model="ContentInfo.t_content" class="ck-editor"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 text-right">
+                        <button ng-click="ContentInfoModifySubmit(ContentEditForm.$valid)" class="btn btn-success btn-sm">提交</button>
+                        <button ng-click="ContentInfoModifyCancel()" class="btn btn-primary btn-sm">返回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+</body>
+<!--<script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.2.0/js/bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="js/lib/tinymce/tinymce.min.js"></script>
+<!--<script type="text/javascript" src="js/lib/angular/angular.js"></script>-->
+<!--<script type="text/javascript" src="js/lib/ui-tinymce-master/tinymce.js"></script>-->
+<!--<script type="text/javascript" src="js/lib/angular/ui-bootstrap-tpls-0.11.0.js"></script>
+<script type="text/javascript" src="js/lib/bootstrapmodal/js/bootstrap-modalmanager.js"></script>
+<script type="text/javascript" src="js/lib/bootstrapmodal/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="js/lib/angular/angular-local-storage.js"></script>-->
+<!--<script type="text/javascript" src="js/ContentMgt.js" charset="gb2312"></script>-->
+</html>

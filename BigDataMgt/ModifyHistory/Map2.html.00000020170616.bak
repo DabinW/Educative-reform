@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>统计图</title>
+    <script src="echarts.js"></script>
+      <style type="text/css">
+           #main{
+            position: absolute;
+            left: 800px;
+            top: 200px;
+
+           }
+       </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body ng-app="AssertIndexApp" style="height:600px; width: 1250px; margin: 0">
+ 
+    <div  class="col-md-12">
+        <div class="bs-callout bs-callout-default">
+            <strong>地图</strong>   
+        </div>
+      
+       <div id="container" style="height: 600px; width:800px;"></div>
+       <div id="main" style="width: 560px;height:300px;"></div>
+
+
+        <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="echarts.js"></script>
+
+
+    <script type="text/javascript">
+       var myChart1 = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option1 = {
+            title: {
+                text: ''
+            },
+            tooltip: {},
+            legend: {
+                data:['高考改革','综合改革方案备案','重点事项改革']
+            },
+            xAxis: {
+                data: ["宁波","厦门","青岛","大连","深圳","新疆生产建设兵团"]
+            },
+            yAxis: {},
+            series: [{
+                name: '高考改革',
+                type: 'bar',
+                data: [300, 200, 360, 150, 400, 100]
+            },
+            {
+                name: '综合改革方案备案',
+                type: 'bar',
+                data: [150, 210, 260, 190, 300, 80]
+            },
+             {
+                name: '重点事项改革',
+                type: 'bar',
+                data: [160, 180, 260, 170, 210, 200]
+            }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart1.setOption(option1);
+
+
+
+
+
+
+
+
+
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+function randomData() {
+    return Math.round(Math.random()*1000);
+}
+
+option = {
+    title: {
+        text: '教育改革信息分布',
+        subtext: '纯属虚构',
+        left: 'center'
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data:['高考改革','综合改革方案备案','重点事项改革']
+    },
+    visualMap: {
+        min: 0,
+        max: 4500,
+        left: 'left',
+        top: 'bottom',
+        text: ['高','低'],           // 文本，默认为数值文本
+        calculable: true
+    },
+    toolbox: {
+        show: true,
+        orient: 'vertical',
+        left: 'right',
+        top: 'center',
+        feature: {
+            dataView: {readOnly: false},
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    series: [
+        {
+            name: '高考改革',
+            type: 'map',
+            mapType: 'china',
+            roam: false,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data:[
+                {name: '北京',value: randomData() },
+                {name: '天津',value: randomData() },
+                {name: '上海',value: randomData() },
+                {name: '重庆',value: randomData() },
+                {name: '河北',value: randomData() },
+                {name: '河南',value: randomData() },
+                {name: '云南',value: randomData() },
+                {name: '辽宁',value: randomData() },
+                {name: '黑龙江',value: randomData() },
+                {name: '湖南',value: randomData() },
+                {name: '安徽',value: randomData() },
+                {name: '山东',value: randomData() },
+                {name: '新疆',value: randomData() },
+                   {name: '新疆生产建设兵团',value: randomData() },
+                {name: '江苏',value: randomData() },
+                {name: '浙江',value: randomData() },
+                   {name: '宁波',value: randomData() },
+                {name: '江西',value: randomData() },
+                {name: '湖北',value: randomData() },
+                {name: '广西',value: randomData() },
+                {name: '甘肃',value: randomData() },
+                {name: '山西',value: randomData() },
+                {name: '内蒙古',value: randomData() },
+                {name: '陕西',value: randomData() },
+                {name: '吉林',value: randomData() },
+                {name: '福建',value: randomData() },
+                  {name: '厦门',value: randomData() },
+                {name: '贵州',value: randomData() },
+                {name: '广东',value: randomData() },
+                {name: '青海',value: randomData() },
+                {name: '西藏',value: randomData() },
+                {name: '四川',value: randomData() },
+                {name: '宁夏',value: randomData() },
+                {name: '海南',value: randomData() },
+                {name: '台湾',value: randomData() },
+                {name: '香港',value: randomData() },
+                {name: '澳门',value: randomData() }
+            ]
+        },   
+         {
+            name: '综合改革方案备案',
+            type: 'map',
+            mapType: 'china',
+            roam: false,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data:[
+                {name: '北京',value: randomData() },
+                {name: '天津',value: randomData() },
+                {name: '上海',value: randomData() },
+                {name: '重庆',value: randomData() },
+                {name: '河北',value: randomData() },
+                {name: '河南',value: randomData() },
+                {name: '云南',value: randomData() },
+                {name: '辽宁',value: randomData() },
+                {name: '黑龙江',value: randomData() },
+                {name: '湖南',value: randomData() },
+                {name: '安徽',value: randomData() },
+                {name: '山东',value: randomData() },
+                {name: '新疆',value: randomData() },
+                   {name: '新疆生产建设兵团',value: randomData() },
+                {name: '江苏',value: randomData() },
+                {name: '浙江',value: randomData() },
+                   {name: '宁波',value: randomData() },
+                {name: '江西',value: randomData() },
+                {name: '湖北',value: randomData() },
+                {name: '广西',value: randomData() },
+                {name: '甘肃',value: randomData() },
+                {name: '山西',value: randomData() },
+                {name: '内蒙古',value: randomData() },
+                {name: '陕西',value: randomData() },
+                {name: '吉林',value: randomData() },
+                {name: '福建',value: randomData() },
+                  {name: '厦门',value: randomData() },
+                {name: '贵州',value: randomData() },
+                {name: '广东',value: randomData() },
+                {name: '青海',value: randomData() },
+                {name: '西藏',value: randomData() },
+                {name: '四川',value: randomData() },
+                {name: '宁夏',value: randomData() },
+                {name: '海南',value: randomData() },
+                {name: '台湾',value: randomData() },
+                {name: '香港',value: randomData() },
+                {name: '澳门',value: randomData() }
+            ]
+        },   
+         {
+            name: '重点事项改革',
+            type: 'map',
+            mapType: 'china',
+            roam: false,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data:[
+                {name: '北京',value: randomData() },
+                {name: '天津',value: randomData() },
+                {name: '上海',value: randomData() },
+                {name: '重庆',value: randomData() },
+                {name: '河北',value: randomData() },
+                {name: '河南',value: randomData() },
+                {name: '云南',value: randomData() },
+                {name: '辽宁',value: randomData() },
+                {name: '黑龙江',value: randomData() },
+                {name: '湖南',value: randomData() },
+                {name: '安徽',value: randomData() },
+                {name: '山东',value: randomData() },
+                {name: '新疆',value: randomData() },
+                   {name: '新疆生产建设兵团',value: randomData() },
+                {name: '江苏',value: randomData() },
+                {name: '浙江',value: randomData() },
+                   {name: '宁波',value: randomData() },
+                {name: '江西',value: randomData() },
+                {name: '湖北',value: randomData() },
+                {name: '广西',value: randomData() },
+                {name: '甘肃',value: randomData() },
+                {name: '山西',value: randomData() },
+                {name: '内蒙古',value: randomData() },
+                {name: '陕西',value: randomData() },
+                {name: '吉林',value: randomData() },
+                {name: '福建',value: randomData() },
+                  {name: '厦门',value: randomData() },
+                {name: '贵州',value: randomData() },
+                {name: '广东',value: randomData() },
+                {name: '青海',value: randomData() },
+                {name: '西藏',value: randomData() },
+                {name: '四川',value: randomData() },
+                {name: '宁夏',value: randomData() },
+                {name: '海南',value: randomData() },
+                {name: '台湾',value: randomData() },
+                {name: '香港',value: randomData() },
+                {name: '澳门',value: randomData() }
+            ]
+        },   
+    ]
+};
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+
+
+
+       
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+   
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:1500/d499fd70ca2844299e25df6cf34f7e42/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:1500/d499fd70ca2844299e25df6cf34f7e42/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:1500/d499fd70ca2844299e25df6cf34f7e42/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:1500/d499fd70ca2844299e25df6cf34f7e42/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+</body>
+</html>

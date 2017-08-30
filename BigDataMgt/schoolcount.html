@@ -1,0 +1,398 @@
+<!DOCTYPE>
+<html>
+<head>
+    <!-- <meta content="text/html; charset="utf-8"> -->
+     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>各直属高校改革情况饼图和报表</title>
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap3.2.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="css/font-awesome-4.2.0/css/font-awesome.min.css" type="text/css">
+    <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-local-storage.js"></script>
+    <script type="text/javascript" src="js/SampleApp.js" charset="gb2312"></script>
+    <script src="js/echarts.js" charset="utf-8"></script>
+    <script src="js/china.js" charset="utf-8"></script>
+
+    <!-- 引入 echarts.js -->
+    <script src="js\echarts.min.js"></script>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .all{
+            /*width: 100%;*/
+            margin-left: 200px;
+            margin-right: 200px;
+        }
+        .up{
+            height: 400px;
+
+        }
+        .up-up{
+            margin-top: 30px;
+        }
+        h3{
+            margin-top: 10px;
+            margin-left: 50px;
+            height: 30px;
+        }
+        .up-left{
+            position:absolute;
+            margin-left:150px;
+            margin-top: 10px;
+        }
+        .up-right{
+            position:absolute;
+            margin-left:1050px;
+            margin-top: 10px;
+            
+        }
+        .up-middle{
+             position:absolute;
+            margin-left:600px;
+            margin-top: 10px;
+            
+        }
+        .down-up{
+            margin-bottom: 20px;
+        }
+        .down-down{
+            margin-left: 1000px;
+            margin-bottom: 20px;
+        }
+    </style> 
+</head>
+<body>
+    <div class="all">
+        <div class="up">
+            <div class="up-up"><h3><strong><center>各直属高校改革进展情况--饼图</center></strong></h3></div>
+            <div  class="up-left"><div id="yiwancheng"  style="width: 300px;height:300px;"></div></div>
+            <div  class="up-middle"><div id="jinxingzhong"  style="width: 300px;height:300px;"></div></div>
+            <div  class="up-right"><div id="weiwancheng"  style="width: 300px;height:300px;"></div></div> 
+        </div>
+        <div class="down">
+            <div class="down-up"><h3><strong><center>各直属高校改革进展情况--报表</center></strong></h3></div>
+            <div class="down-down">
+                <select  id="region" name="state1"  onChange="getState2()" style="height: 35px;width: 200px;">
+                    <option>--请选择地域--</option>
+                    <option>东部</option>
+                    <option>中部</option>
+                    <option>西部</option>
+                </select>
+                <select   id="reformcase" name="state2" style="height: 35px;width: 200px;">
+                    <option>--请选择改革事项--</option>
+                </select>         
+                <button class="btn btn-info btn-newMem" id="btn-newMem" onclick="getReport()">查询</button>
+            </div>
+            <div class="col-md-12  col-sm-12 center-block">       
+                <table class="table table-bordered  table-striped table-hover" id="mytable" > 
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>直属高校</th>
+                            <th>地区</th>
+                            <th>地域</th>
+                            <th>改革事项</th>
+                            <th>进度</th>
+                            <th>事项描述</th>
+                            <th>启动时间</th>
+                            <th>完成时间</th>
+                            <th>联系人</th>
+                            <th>部门及职务</th>
+                            <th>联系电话</th>
+                            <th>传真</th>
+                            <th>邮箱</th>
+                            <th>改革效果</th>
+                            <th>经手人</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <script type="text/javascript">
+    //up图
+    function getcharts1(){
+        var  result = {"schedule":"已完成"};
+        var result1= JSON.stringify(result);
+        $.ajax({
+            type:"POST",
+            url:"api/1.0/edu/system/account/getReformMesByschool",
+            data:result1,
+            dataType:"json",
+            async:true,
+             success:function(data){
+        var myChart1 = echarts.init(document.getElementById('yiwancheng'));
+        
+        option1 = {
+            title : {
+            text: '已完成',
+            x:'center',
+            y:'bottom'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        series : [
+            {
+                name: '高校改革已完成数量',
+                type: 'pie',
+                radius : '55%',//半径，计算传输组实现环形图
+                center: ['50%', '50%'],//圆心坐标
+                data:[
+                    {value:data[1][0].count, name:'东部'},
+                    {value:data[0][0].count, name:'中部'},
+                    {value:data[2][0].count, name:'西部'}
+                ],
+                // itemStyle: {
+                //     emphasis: {
+                //         shadowBlur: 10,
+                //         shadowOffsetX: 0,
+                //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+                //     }
+                // }
+                itemStyle:{ 
+                    normal:{ 
+                     label:{ 
+                       show: true, 
+                       formatter: ' {b} : {c} ' ,
+                        //position: 'inside'
+                     }, 
+                    labelLine :{show:true} 
+                } 
+            } 
+            }
+        ]
+    };
+       myChart1.setOption(option1);
+    },
+    })
+}
+getcharts1();
+function getcharts2(){
+        var  result = {"schedule":"进行中"};
+        var result2= JSON.stringify(result);
+        $.ajax({
+            type:"POST",
+            url:"api/1.0/edu/system/account/getReformMesByschool",
+            data:result2,
+            dataType:"json",
+            async:true,
+             success:function(data){
+    var myChart2 = echarts.init(document.getElementById('jinxingzhong'));
+    option2 = {
+        title : {
+            text: '进行中',
+            //subtext: '来自xx模块',
+            x:'center',
+            y:'bottom'
+        },
+          
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        series : [
+            {
+                name: '高校改革进行中数量',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '50%'],
+                data:[
+                    {value:data[1][0].count, name:'东部'},
+                    {value:data[0][0].count, name:'中部'},
+                    {value:data[2][0].count, name:'西部'}
+                ],
+                // itemStyle: {
+                //     emphasis: {
+                //         shadowBlur: 10,
+                //         shadowOffsetX: 0,
+                //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+                //     }
+                // }
+                itemStyle:{ 
+                    normal:{ 
+                     label:{ 
+                       show: true, 
+                       formatter: ' {b} : {c} ' ,
+                        //position: 'inside'
+                     }, 
+                    labelLine :{show:true} 
+                } 
+            } 
+            }
+        ]
+    }; 
+    myChart2.setOption(option2);
+    },
+    })
+}
+getcharts2();
+function getcharts3(){
+        var  result = {"schedule":"未启动"};
+        var result3= JSON.stringify(result);
+        $.ajax({
+            type:"POST",
+            url:"api/1.0/edu/system/account/getReformMesByschool",
+            data:result3,
+            dataType:"json",
+            async:true,
+             success:function(data){
+    var myChart3 = echarts.init(document.getElementById('weiwancheng'));
+    option3 = {
+        title : {
+            text: '未启动',
+            //subtext: '来自xx模块',
+            x:'center',
+            y:'bottom'
+        },
+            
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        series : [
+            {
+                name: '高校改革未启动数量',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '50%'],
+                data:[
+                    {value:data[1][0].count, name:'东部'},
+                    {value:data[0][0].count, name:'中部'},
+                    {value:data[2][0].count, name:'西部'}
+                ],
+                // itemStyle: {
+                //     emphasis: {
+                //         shadowBlur: 10,
+                //         shadowOffsetX: 0,
+                //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+                //     }
+                // }
+                itemStyle:{ 
+                    normal:{ 
+                     label:{ 
+                       show: true, 
+                       formatter: ' {b} : {c} ' ,
+                        //position: 'inside'
+                     }, 
+                    labelLine :{show:true} 
+                } 
+            } 
+            }
+        ]
+    };
+
+
+    myChart3.setOption(option3);
+    },
+    })
+}
+getcharts3();
+//down报表
+    //联动下拉框
+    var state2=[
+        ["高考改革","综合改革方案备案","重点事项改革"],
+        ["高考改革","综合改革方案备案","重点事项改革"],
+        ["高考改革","综合改革方案备案","重点事项改革"] 
+    ];
+    function getState2(){
+        var sltProvince=document.getElementById("region");
+        var sltCity=document.getElementById("reformcase");     
+        var provinceCity=state2[sltProvince.selectedIndex - 1];
+        sltCity.length=1;
+        for(var i=0;i<provinceCity.length;i++){
+            sltCity[i+1]=new Option(provinceCity[i],provinceCity[i]);
+        }
+    }
+    //调接口
+
+
+
+
+
+      function datereform(date){
+             
+              switch(date[0]){
+                case "Jan": mon = 1;break;
+                case "Feb": mon = 2;break;
+                case "Mar": mon = 3;break;
+                case "Apr": mon = 4;break;
+                case "May": mon = 5;break;
+                case "Jun": mon = 6;break;
+                case "Jul": mon = 7;break;
+                case "Aug": mon = 8;break;
+                case "Sep": mon = 9;break;
+                case "Oct": mon = 10;break;
+                case "Nov": mon = 11;break;
+                case "Dec": mon = 12;break;
+              }
+              return mon;
+          }
+    var  getReport= function () {
+        $('#mytable tbody tr').remove();//触发事件之前，先把表格中的内容都删除掉 
+        var bbb = $("#region").find("option:selected").text();  //获取选中的项
+        var ccc = $("#reformcase").find("option:selected").text();
+        var  result = {"region":bbb,"reformcase":ccc};
+        var result1= JSON.stringify(result);  
+        console.log();
+        if(ccc!="--请选择改革事项--"){
+
+        $.ajax({
+            type:"POST",
+            url:"api/1.0/edu/system/account/getReformMesByschool2",
+            data:result1,
+            dataType:"json",
+            async:true,
+            success:function(data){
+                
+                 var arr = data;
+                 console.log(data);
+                if(arr.length !=0){
+                for (var i=0; i<arr.length; i++) { 
+                   
+                    console.log(arr[i].starttime);
+                    var id=arr[i].id||'无';
+                    var school=arr[i].school||'无';
+                    var area=arr[i].area||'无';
+                    var region=arr[i].region||'无';
+                    var reform_event=arr[i].reform_event||'无';
+                    var schedule=arr[i].schedule||'无';
+                    var description=arr[i].description||'无';
+                    var starttime=arr[i].starttime||'无';
+                    var finish_time=arr[i].finish_time||'无';
+                    var contacts=arr[i].contacts||'无';
+                    var department_job=arr[i].department_job||'无';
+                    var tel=arr[i].tel||'无';
+                    var fax=arr[i].fax||'无';
+                    var email=arr[i].email||'无';
+                    var reform_effect=arr[i].reform_effect||'无';
+                    var brokerage=arr[i].brokerage||'无';
+                    var remark=arr[i].remark||'无';
+
+                    $('#mytable tbody').append("<tr><td>"+id+"</td><td>"+school+"</td><td>"+area+"</td><td>"+region+"</td><td>"+reform_event+"</td><td>"+schedule+"</td><td>"+description+"</td><td>"+starttime+"</td><td>"+finish_time+"</td><td>"+contacts+"</td><td>"+department_job+"</td><td>"+tel+"</td><td>"+fax+"</td><td>"+email+"</td><td>"+reform_effect+"</td><td>"+brokerage+"</td><td>"+remark+"</td></tr>")
+                }
+                }
+                else{
+                    alert("不存在该类数据");
+                }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                console.log(XMLHttpRequest);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        })
+    }else{
+        alert("请选择改革事项");
+    }
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "code": "N01",
+  "message": "调用成功",
+  "contents": [
+    {
+      "no": "01",
+      "coursename": "教育方针",
+      "unit": "**教科院",
+      "person": "张**",
+      "information": "1",
+      "funding": 10,
+      "starttime": "Jun 11, 2017 12:00:00 AM",
+      "finish_time": "Jun 12, 2017 12:00:00 AM",
+      "schedule": "已完成",
+      "results": "",
+      "evaluation": "好",
+      "handler": "1",
+      "remark": "1",
+      "id": 3001,
+      "tel": "13***",
+      "brokerage": "**"
+    },
+    {
+      "id": 3004,
+      "coursename": "**教育方针",
+      "unit": "**教育局",
+      "schedule": "已完成",
+      "person": "张**",
+      "tel": "155***",
+      "funding": 10,
+      "starttime": "Feb 4, 2016 12:00:00 AM",
+      "finish_time": "Jun 6, 2017 12:00:00 AM",
+      "evaluation": "好",
+      "brokerage": "李**"
+    },
+    {
+      "id": 3005,
+      "coursename": "**改革方案",
+      "person": "王**",
+      "tel": "168***",
+      "funding": 8,
+      "starttime": "Nov 1, 2016 12:00:00 AM",
+      "finish_time": "Feb 2, 2017 12:00:00 AM",
+      "schedule": "已完成",
+      "evaluation": "较好",
+      "brokerage": "郑**",
+      "unit": "邮科院"
+    }
+  ]
+}

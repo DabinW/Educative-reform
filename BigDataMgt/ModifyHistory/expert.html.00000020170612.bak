@@ -1,0 +1,40 @@
+【HTML文件编辑】
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>管理专家学者及社会知名人士信息页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body ng-app="AssertIndexApp">
+<div ng-controller="expertController">
+    <div  class="col-md-12">
+        <div class="bs-callout bs-callout-default">
+            <strong>专家学者及社会知名人士</strong>
+        </div>
+        <div><commdatamgt dataset="dataset" options="showoption" form="CommDataEditForm" editinfo="CommDataEditInfo"></commdatamgt></div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:22015/c094bba61ad94244a9a28fc8b8802d4f/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome"}
+</script>
+<script type="text/javascript" src="http://localhost:8332/a70a6e56a9a44b35b3653150bd39edba/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+</body>
+</html>

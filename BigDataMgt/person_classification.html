@@ -1,0 +1,805 @@
+﻿ <!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>人员分类统计图</title>
+    <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-1.3.15/angular-local-storage.js"></script>
+    <script type="text/javascript" src="js/SampleApp.js" charset="gb2312"></script>
+    <script src="js/echarts.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <style type="text/css">
+        *{
+          padding: 0 auto;
+          margin: 0 auto;
+        }
+        html,body{
+          width: 100%;
+          height: 100%;
+        }
+        .all{
+          margin-left:300px;
+          margin-right: 200px;
+        }
+        .top{
+            width: 99%;
+            height: 9.4%;
+            text-align:center;
+            margin-top: 3%;
+
+            /*font-size:24px;*/
+        }
+        .up{
+            width: 99%;
+            height: 5%;
+            margin-top: 3%;
+            /*padding-left: 12%;*/
+
+        }
+        .main{
+             width:100%;
+             /*height:auto;
+             border:1px solid #000;*/
+        }
+          .all-1{
+          width: 99%;
+          /*height: 45%;*/
+          }
+
+        .all-2{
+          width: 99%;
+          /*height: 45%;*/
+         }
+
+        .all-3{
+          width: 70%;
+          /*height: 45%;*/
+          /*padding-left: 15%; */
+        }
+
+       .down{
+          width: 99%;
+          /*height: 45%;*/
+          margin-top: 2%;
+
+        }
+        
+    </style>
+
+</head>
+<body>
+  <div class="all">
+    <div class="top" >
+        <h3><strong>人员分类统计图</strong></h3>
+        <!-- <p style="font-size:14px;">数据来自人员管理子系统模块</p> -->
+    </div>
+
+    <div class="up">
+      <select class="selectoption" id="selectoption" name="state1" style="height: 35px;width: 200px;">
+        <!-- <option selected = "selected">请选择人员分类</option> -->
+        <option selected = "selected">内部人员</option>
+        <option>国家教育咨询委员</option>
+        <option>各地教育行政部门</option>
+        <option>直属高校及各级各类学校人员</option>
+        <option>专家学者及社会知名人士</option>
+      </select>
+      <button class="btn btn-info btn-newMem" id="btn-newMem" onclick="getpic()" >查询</button>
+      <input type="button" class="btn btn-info btn-newMem" value="人员分类统计报表"  style="float: right;margin-right: 100px;" onclick="javascrtpt:window.location.href='person_classification_tongji.html'">
+      <!-- <button class="btn btn-info btn-newMem" style="float: right;margin-right: 100px;">人员统计报表</button> -->
+
+    </div>
+    <div class="main">
+           <div class="all-1" id="all-1" style="display: none;">
+                <div class="col-lg-12">
+                  <div class="col-lg-6" id="niandu" style="width:500px;height:300px;"></div>
+                  <div class="col-lg-offset-6" id="leibie" style="width:400px;height: 300px;"></div>
+                </div>
+          </div>
+          <div class="all-2" id="all-2" style="display: none;">
+                <div class="col-lg-12">
+                  <div class="col-lg-6 " id="jiebie" style="width:500px;height: 300px;"></div>
+                  <div class="col-lg-offset-6" id="area" style="width:650px;height: 300px;"></div>
+                </div>
+          </div> 
+          <div class="all-3" id="all-3" style="display: none;">
+                <div class="col-lg-12">
+                  <div class="col-lg-8 col-lg-offset-2" id="area1" style="width:800px;height: 300px;"></div>
+                </div>
+          </div>
+          <div class="down" id="down"  style="display: none;">
+                <div class="col-lg-12">
+                  <div  class="col-lg-6" id="xingzhengjibie" style="width:550px;height: 300px;"></div>
+                  <div class="col-lg-offset-6"  id="zhicheng" style="width:550px;height: 300px;"></div>
+                </div>
+          </div>
+    </div><!-- main -->
+  </div><!-- all -->
+<script type="text/javascript">
+        var xingzhengjb=[];
+        var zhic=[];
+        var year=[];
+        var jiebname=[];
+        var jiebdata=[];
+        var leib=[];
+        var area0=[];
+        var area9=[];
+        var yearname=[];
+        var yeardata=[];
+  var  getpic=function(){
+            var ref = $("#selectoption").find("option:selected").text();  //获取选中的项
+            var  result = {ref};
+            var result1= JSON.stringify(result);
+            //console.log(result1);
+            //console.log(result.ref);
+        //页面切换
+        //想要默认为内部人员，就把内部人员接口写在switch外面
+            switch(result.ref){
+              case "内部人员" :  document.getElementById("all-1").style.display="block";
+                             document.getElementById("all-2").style.display="none";
+                             document.getElementById("all-3").style.display="none";
+                              document.getElementById("down").style.display="block";
+                              $.ajax({
+                                  type:"POST",
+                                  data:result.ref,
+                                  url:"api/1.0/edu/system/account/getPeopleInfo",//内部人员查
+                                  dataType:"json",
+                                  async:true,
+                                  success:function(data){
+
+                                         for(i=0;i<data.contents[5].length;i++){
+                                            yeardata[i]=
+                                            {
+                                                 value:data.contents[5][i].count,
+                                                 name:data.contents[5][i].Year
+                                            },
+                                            yearname[i]=data.contents[5][i].Year;
+                                        };
+                                        niandu0();
+                                        for(i=0;i<data.contents[2].length;i++){
+                                           leib[i]=data.contents[2][i];
+                                        };
+                                        leibie0();
+                                        for(i=0;i<data.contents[0].length;i++){
+                                           xingzhengjb[i]=data.contents[0][i];
+                                        };
+                                        xingzhengjibie0();
+                                        for(i=0;i<data.contents[1].length;i++){
+                                           zhic[i]=data.contents[1][i];
+                                        };
+                                        zhicheng0();
+                                  }
+                              });
+                              break;
+
+          case "国家教育咨询委员":  document.getElementById("all-1").style.display="none";
+                                  document.getElementById("all-2").style.display="block";
+                                  document.getElementById("all-3").style.display="none";
+                                  document.getElementById("down").style.display="block";
+                                  $.ajax({
+                                  type:"POST",
+                                  data:result.ref,
+                                  url:"api/1.0/edu/system/account/getAdvisoryCommittee",
+                                  dataType:"json",
+                                  async:true,
+                                  success:function(data){
+                                      for(var i = 0;i<=data.contents[4].length-1; i++){
+                                          switch(data.contents[4][i].area){
+                                              case "北京": area0[0]=data.contents[4][i].count; break;
+                                              case "天津": area0[1]= data.contents[4][i].count; break;
+                                              case "河北": area0[2]= data.contents[4][i].count; break;
+                                              case "山西": area0[3]= data.contents[4][i].count; break;
+                                              case "内蒙古": area0[4]=data.contents[4][i].count; break;
+                                              case "辽宁": area0[5]= data.contents[4][i].count; break;
+                                              case "吉林": area0[6]= data.contents[4][i].count; break;
+                                              case "黑龙江": area0[7]=data.contents[4][i].count; break;
+                                              case "上海": area0[8]= data.contents[4][i].count; break;
+                                              case "江苏": area0[9]= data.contents[4][i].count; break;
+                                              case "浙江": area0[10]=data.contents[4][i].count; break;
+                                              case "安徽": area0[11]=data.contents[4][i].count; break;
+                                              case "福建": area0[12]=data.contents[4][i].count; break;
+                                              case "江西": area0[13]=data.contents[4][i].count; break;
+                                              case "山东": area0[14]=data.contents[4][i].count; break;
+                                              case "河南": area0[15]=data.contents[4][i].count; break;
+                                              case "湖北": area0[16]=data.contents[4][i].count; break;
+                                              case "湖南": area0[17]=data.contents[4][i].count; break;
+                                              case "广东": area0[18]=data.contents[4][i].count; break;
+                                              case "广西": area0[19]=data.contents[4][i].count; break;
+                                              case "海南": area0[20]=data.contents[4][i].count; break;
+                                              case "重庆": area0[21]=data.contents[4][i].count; break;
+                                              case "四川": area0[22]=data.contents[4][i].count; break;
+                                              case "贵州": area0[23]=data.contents[4][i].count; break;
+                                              case "云南": area0[24]=data.contents[4][i].count; break;
+                                              case "西藏": area0[25]=data.contents[4][i].count; break;
+                                              case "陕西": area0[26]=data.contents[4][i].count; break;
+                                              case "甘肃": area0[27]=data.contents[4][i].count; break;
+                                              case "青海": area0[28]=data.contents[4][i].count; break;
+                                              case "宁夏": area0[29]=data.contents[4][i].count; break;
+                                              case "新疆": area0[30]=data.contents[4][i].count; break;
+                                              case "香港": area0[31]=data.contents[4][i].count; break;
+                                              case "澳门": area0[32]=data.contents[4][i].count; break;
+                                              case "台湾": area0[33]=data.contents[4][i].count; break;
+                                          }
+                                      };
+                                      area();
+                                      // for(i=0;i<data.contents[5].length;i++){
+                                      //       yeardata[i]=
+                                      //       {
+                                      //            value:data.contents[5][i].count,
+                                      //            name:data.contents[5][i].Year
+                                      //       },
+                                      //       yearname[i]=data.contents[5][i].Year;
+                                      //   };
+                                      for(i=0;i<data.contents[3].length;i++){
+                                            jiebdata[i]=
+                                            {
+                                                 value:data.contents[3][i].count,
+                                                 name:data.contents[3][i].session
+                                            },
+                                            jiebname[i]=data.contents[3][i].session;
+                                        };
+                                      
+                                        jiebie0();
+                                        for(i=0;i<data.contents[0].length;i++){
+                                           xingzhengjb[i]=data.contents[0][i];
+                                        };
+                                        xingzhengjibie0();
+                                        for(i=0;i<data.contents[1].length;i++){
+                                           zhic[i]=data.contents[1][i];
+                                        };
+                                        zhicheng0();
+                                     }
+                                    });
+                                    break;
+
+          case "各地教育行政部门":  document.getElementById("all-1").style.display="none";
+                                  document.getElementById("all-2").style.display="none";
+                                  document.getElementById("all-3").style.display="block";
+                                  document.getElementById("down").style.display="block";
+                                  $.ajax({
+                                  type:"POST",
+                                  data:result.ref,
+                                  url:"api/1.0/edu/system/account/getDepartments",
+                                  dataType:"json",
+                                  async:true,
+                                  success:function(data){
+                                    for(var i = 0;i<=data.contents[4].length - 1; i++){
+                                          switch(data.contents[4][i].area){
+                                              case "北京": area9[0]=data.contents[4][i].count; break;
+                                              case "天津": area9[1]= data.contents[4][i].count; break;
+                                              case "河北": area9[2]= data.contents[4][i].count; break;
+                                              case "山西": area9[3]= data.contents[4][i].count; break;
+                                              case "内蒙古": area9[4]=data.contents[4][i].count; break;
+                                              case "辽宁": area9[5]= data.contents[4][i].count; break;
+                                              case "吉林": area9[6]= data.contents[4][i].count; break;
+                                              case "黑龙江": area9[7]=data.contents[4][i].count; break;
+                                              case "上海": area9[8]= data.contents[4][i].count; break;
+                                              case "江苏": area9[9]= data.contents[4][i].count; break;
+                                              case "浙江": area9[10]=data.contents[4][i].count; break;
+                                              case "安徽": area9[11]=data.contents[4][i].count; break;
+                                              case "福建": area9[12]=data.contents[4][i].count; break;
+                                              case "江西": area9[13]=data.contents[4][i].count; break;
+                                              case "山东": area9[14]=data.contents[4][i].count; break;
+                                              case "河南": area9[15]=data.contents[4][i].count; break;
+                                              case "湖北": area9[16]=data.contents[4][i].count; break;
+                                              case "湖南": area9[17]=data.contents[4][i].count; break;
+                                              case "广东": area9[18]=data.contents[4][i].count; break;
+                                              case "广西": area9[19]=data.contents[4][i].count; break;
+                                              case "海南": area9[20]=data.contents[4][i].count; break;
+                                              case "重庆": area9[21]=data.contents[4][i].count; break;
+                                              case "四川": area9[22]=data.contents[4][i].count; break;
+                                              case "贵州": area9[23]=data.contents[4][i].count; break;
+                                              case "云南": area9[24]=data.contents[4][i].count; break;
+                                              case "西藏": area9[25]=data.contents[4][i].count; break;
+                                              case "陕西": area9[26]=data.contents[4][i].count; break;
+                                              case "甘肃": area9[27]=data.contents[4][i].count; break;
+                                              case "青海": area9[28]=data.contents[4][i].count; break;
+                                              case "宁夏": area9[29]=data.contents[4][i].count; break;
+                                              case "新疆": area9[30]=data.contents[4][i].count; break;
+                                              case "香港": area9[31]=data.contents[4][i].count; break;
+                                              case "澳门": area9[32]=data.contents[4][i].count; break;
+                                              case "台湾": area9[33]=data.contents[4][i].count; break;
+                                          }
+                                      };
+                                      area1();
+                                       for(i=0;i<data.contents[0].length;i++){
+                                           xingzhengjb[i]=data.contents[0][i];
+                                        };
+                                        xingzhengjibie0();
+                                        for(i=0;i<data.contents[1].length;i++){
+                                           zhicheng[i]=data.contents[1][i];
+                                        };
+                                        zhicheng0();
+        
+                                       }
+                                     });
+                                     break;
+
+          case "直属高校及各级各类学校人员":  document.getElementById("all-1").style.display="none";
+                                            document.getElementById("all-2").style.display="none";
+                                            document.getElementById("all-3").style.display="block";
+                                            document.getElementById("down").style.display="block";
+                                            $.ajax({
+                                                  type:"POST",
+                                                  data:result.ref,
+                                                  url:"api/1.0/edu/system/account/getSchoolmember",
+                                                  dataType:"json",
+                                                  async:true,
+                                                  success:function(data){
+                                                    for(var i = 0;i<=data.contents[4].length - 1; i++){
+                                            switch(data.contents[4][i].area){
+                                              case "北京": area9[0]=data.contents[4][i].count; break;
+                                              case "天津": area9[1]= data.contents[4][i].count; break;
+                                              case "河北": area9[2]= data.contents[4][i].count; break;
+                                              case "山西": area9[3]= data.contents[4][i].count; break;
+                                              case "内蒙古": area9[4]=data.contents[4][i].count; break;
+                                              case "辽宁": area9[5]= data.contents[4][i].count; break;
+                                              case "吉林": area9[6]= data.contents[4][i].count; break;
+                                              case "黑龙江": area9[7]=data.contents[4][i].count; break;
+                                              case "上海": area9[8]= data.contents[4][i].count; break;
+                                              case "江苏": area9[9]= data.contents[4][i].count; break;
+                                              case "浙江": area9[10]=data.contents[4][i].count; break;
+                                              case "安徽": area9[11]=data.contents[4][i].count; break;
+                                              case "福建": area9[12]=data.contents[4][i].count; break;
+                                              case "江西": area9[13]=data.contents[4][i].count; break;
+                                              case "山东": area9[14]=data.contents[4][i].count; break;
+                                              case "河南": area9[15]=data.contents[4][i].count; break;
+                                              case "湖北": area9[16]=data.contents[4][i].count; break;
+                                              case "湖南": area9[17]=data.contents[4][i].count; break;
+                                              case "广东": area9[18]=data.contents[4][i].count; break;
+                                              case "广西": area9[19]=data.contents[4][i].count; break;
+                                              case "海南": area9[20]=data.contents[4][i].count; break;
+                                              case "重庆": area9[21]=data.contents[4][i].count; break;
+                                              case "四川": area9[22]=data.contents[4][i].count; break;
+                                              case "贵州": area9[23]=data.contents[4][i].count; break;
+                                              case "云南": area9[24]=data.contents[4][i].count; break;
+                                              case "西藏": area9[25]=data.contents[4][i].count; break;
+                                              case "陕西": area9[26]=data.contents[4][i].count; break;
+                                              case "甘肃": area9[27]=data.contents[4][i].count; break;
+                                              case "青海": area9[28]=data.contents[4][i].count; break;
+                                              case "宁夏": area9[29]=data.contents[4][i].count; break;
+                                              case "新疆": area9[30]=data.contents[4][i].count; break;
+                                              case "香港": area9[31]=data.contents[4][i].count; break;
+                                              case "澳门": area9[32]=data.contents[4][i].count; break;
+                                              case "台湾": area9[33]=data.contents[4][i].count; break;
+                                              }
+                                            };
+                                            area1();
+                                            for(i=0;i<data.contents[0].length;i++){
+                                                xingzhengjb[i]=data.contents[0][i];
+                                            };
+                                            xingzhengjibie0();
+                                            for(i=0;i<data.contents[1].length;i++){
+                                               zhicheng[i]=data.contents[1][i];
+                                            };
+                                            zhicheng0();   
+     
+        
+                                                  }
+                                            });
+                                            break;
+
+          case "专家学者及社会知名人士":  document.getElementById("all-1").style.display="none";
+                                        document.getElementById("all-2").style.display="none";
+                                        document.getElementById("all-3").style.display="block";
+                                        document.getElementById("down").style.display="block";
+                                        $.ajax({
+                                            type:"POST",
+                                            data:result.ref,
+                                            url:"api/1.0/edu/system/account/getExpert",
+                                            dataType:"json",
+                                            async:true,
+                                            success:function(data){
+                                              for(var i = 0;i<=data.contents[4].length - 1; i++){
+                                          switch(data.contents[4][i].area){
+                                              case "北京": area9[0]=data.contents[4][i].count; break;
+                                              case "天津": area9[1]= data.contents[4][i].count; break;
+                                              case "河北": area9[2]= data.contents[4][i].count; break;
+                                              case "山西": area9[3]= data.contents[4][i].count; break;
+                                              case "内蒙古": area9[4]=data.contents[4][i].count; break;
+                                              case "辽宁": area9[5]= data.contents[4][i].count; break;
+                                              case "吉林": area9[6]= data.contents[4][i].count; break;
+                                              case "黑龙江": area9[7]=data.contents[4][i].count; break;
+                                              case "上海": area9[8]= data.contents[4][i].count; break;
+                                              case "江苏": area9[9]= data.contents[4][i].count; break;
+                                              case "浙江": area9[10]=data.contents[4][i].count; break;
+                                              case "安徽": area9[11]=data.contents[4][i].count; break;
+                                              case "福建": area9[12]=data.contents[4][i].count; break;
+                                              case "江西": area9[13]=data.contents[4][i].count; break;
+                                              case "山东": area9[14]=data.contents[4][i].count; break;
+                                              case "河南": area9[15]=data.contents[4][i].count; break;
+                                              case "湖北": area9[16]=data.contents[4][i].count; break;
+                                              case "湖南": area9[17]=data.contents[4][i].count; break;
+                                              case "广东": area9[18]=data.contents[4][i].count; break;
+                                              case "广西": area9[19]=data.contents[4][i].count; break;
+                                              case "海南": area9[20]=data.contents[4][i].count; break;
+                                              case "重庆": area9[21]=data.contents[4][i].count; break;
+                                              case "四川": area9[22]=data.contents[4][i].count; break;
+                                              case "贵州": area9[23]=data.contents[4][i].count; break;
+                                              case "云南": area9[24]=data.contents[4][i].count; break;
+                                              case "西藏": area9[25]=data.contents[4][i].count; break;
+                                              case "陕西": area9[26]=data.contents[4][i].count; break;
+                                              case "甘肃": area9[27]=data.contents[4][i].count; break;
+                                              case "青海": area9[28]=data.contents[4][i].count; break;
+                                              case "宁夏": area9[29]=data.contents[4][i].count; break;
+                                              case "新疆": area9[30]=data.contents[4][i].count; break;
+                                              case "香港": area9[31]=data.contents[4][i].count; break;
+                                              case "澳门": area9[32]=data.contents[4][i].count; break;
+                                              case "台湾": area9[33]=data.contents[4][i].count; break;
+                                             }
+                                           };
+                                           area1();
+                                           for(i=0;i<data.contents[0].length;i++){
+                                              xingzhengjb[i]=data.contents[0][i];
+                                           };
+                                           xingzhengjibie0();
+                                           for(i=0;i<data.contents[1].length;i++){
+                                              zhicheng[i]=data.contents[1][i];
+                                           };
+                                           zhicheng0();
+                                            }
+                                          });
+
+                                         break;
+                                      }
+
+
+ }//function
+   
+
+   function niandu0(){
+ //年度
+      var myChart1 = echarts.init(document.getElementById('niandu'));
+       // var myChart1 = echarts.init(dom1);
+        option = {
+             title : {
+                 text: '年度',
+                 subtext: '',
+                 x:'center'
+             },
+             tooltip : {         //显示点击到图上之后会显示相应数据
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+              },
+            legend: {
+                 orient: 'vertical',
+                 left: 'left',
+                 data :yearname,
+            },
+            series : [
+              {
+                 name: '人数',
+                 type: 'pie',
+                 radius : '55%',
+                 center: ['50%', '60%'],
+                 data:yeardata,
+                 // itemStyle: {
+                 //      emphasis: {
+                 //          shadowBlur: 10,
+                 //          shadowOffsetX: 0,
+                 //          shadowColor: 'rgba(0, 0, 0, 0.5)'
+                 //      }
+                 // }
+                  itemStyle:{ 
+                    normal:{ 
+                     label:{ 
+                       show: true, 
+                       formatter: ' {b} : {c} ' ,
+                        //position: 'inside'
+                     }, 
+                    labelLine :{show:true} 
+                } 
+            } 
+              }]
+        };
+        myChart1.setOption(option);
+
+      };// year0()
+function xingzhengjibie0(){        
+ var myChart2 = echarts.init(document.getElementById('xingzhengjibie'));
+        option = {
+             title : {
+                 text: '行政级别柱状图',
+                 subtext: '',
+                 x:'center'
+             },
+             color: ['#c23531'],
+             tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+             },
+             grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+             },
+             xAxis : [
+                {
+                    type : 'category',
+                    data: ['正部','副部','正厅','副厅','正处','副处','正科','副科','科员'],
+                    axisTick: {
+                      alignWithLabel: true
+                    }
+                }
+             ],
+             yAxis : [
+                {
+                    type : 'value'
+                }
+             ],
+             series : [
+                {
+                    name:'人数',
+                    type:'bar',
+                    barWidth: '50%',
+                    data:[xingzhengjb[0], xingzhengjb[1], xingzhengjb[2], xingzhengjb[3], xingzhengjb[4], xingzhengjb[5], xingzhengjb[6], xingzhengjb[7],xingzhengjb[8] ]
+                }
+             ]
+        };
+        myChart2.setOption(option);
+      };
+function zhicheng0(){
+        var myChart3 = echarts.init(document.getElementById('zhicheng'));
+        option = {
+             title : {
+                 text: '职称柱状图',
+                 subtext: '',
+                 x:'center'
+             },
+             color: ['#c23531'],
+             tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+             },
+             grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+             },
+             xAxis : [
+                {
+                    type : 'category',
+                    data:['教授','副教授','讲师','助教','研究员','副研究员','助理研究员','研究实习员'],
+                    axisLabel:{  
+                        interval:0  //坐标轴刻度标签的显示间隔(在类目轴中有效哦)，默认会采用标签不重叠的方式显示标签（也就是默认会将部分文字显示不全）可以设置为0强制显示所有标签，如果设置为1，表示隔一个标签显示一个标签
+                        // rotate:30,//倾斜度 -90 至 90 默认为0  
+                        },  
+
+                    axisTick: {
+                      alignWithLabel: true
+                    }
+                }
+             ],
+             yAxis : [
+                {
+                    type : 'value'
+                }
+             ],
+             series : [
+                {
+                    name:'人数',
+                    type:'bar',
+                    barWidth: '50%',
+                    data:[zhic[0], zhic[1],zhic[2],zhic[3],zhic[4],zhic[5],zhic[6],zhic[7]]
+                }
+             ]
+        };
+        myChart3.setOption(option);
+      };
+      function leibie0(){
+        //  类别  
+      
+      var myChart4 = echarts.init(document.getElementById('leibie'));
+      // var myChart4 = echarts.init(dom4);
+        option = {
+             title : {
+                 text: '类别',
+                 subtext: '',
+                 x:'center'
+             },
+             tooltip : {
+                 trigger: 'item',
+                 formatter: "{a} <br/>{b} : {c} ({d}%)"
+             },
+            legend: {
+                 orient: 'vertical',
+                 right: 'right',
+                 data : ['在编','挂职','借调','实习','调研组']
+            },
+            series : [
+              {
+                 name: '类别',
+                 type: 'pie',
+                 radius : '55%',
+                 center: ['50%', '60%'],
+                 data:[{value:leib[0], name:'在编'},
+                      {value:leib[1], name:'挂职'},
+                      {value:leib[2], name:'借调'},
+                      {value:leib[3], name:'实习'},
+                      {value:leib[4], name:'调研组'}
+                 ],
+                 // itemStyle: {
+                 //      emphasis: {
+                 //          shadowBlur: 10,
+                 //          shadowOffsetX: 0,
+                 //          shadowColor: 'rgba(0, 0, 0, 0.5)'
+                 //      }
+                 // }
+                 itemStyle:{ 
+                    normal:{ 
+                     label:{ 
+                       show: true, 
+                       formatter: ' {b} : {c} ' ,
+                        //position: 'inside'
+                     }
+                    }
+                  } 
+              }]
+        };
+        myChart4.setOption(option);
+      };
+      function jiebie0(){
+        //届别饼图
+      
+    var myChart5 = echarts.init(document.getElementById('jiebie'));
+        option = {
+             title : {
+                 text: '届别',
+                 subtext: '',
+                 x:'center'
+             },
+             tooltip : {
+                 trigger: 'item',
+                 formatter: "{a} <br/>{b} : {c} ({d}%)"
+             },
+            legend: {
+                 orient: 'vertical',
+                 left: 'left',
+                 data : jiebname
+            },
+            series : [
+              {
+                 name: '人数',
+                 type: 'pie',
+                 radius : '55%',
+                 center: ['50%', '60%'],
+                 data:jiebdata,
+                 // itemStyle: {
+                 //      emphasis: {
+                 //          shadowBlur: 10,
+                 //          shadowOffsetX: 0,
+                 //          shadowColor: 'rgba(0, 0, 0, 0.5)'
+                 //      }
+                 // }
+                 itemStyle:{ 
+                    normal:{ 
+                     label:{ 
+                       show: true, 
+                       formatter: ' {b} : {c} ' ,
+                        //position: 'inside'
+                     }
+                    }
+                  } 
+              }]
+        };
+        myChart5.setOption(option);
+      };
+      function area(){
+        //地区柱状      
+        var myChart6= echarts.init(document.getElementById('area'));
+        option = {
+             title : {
+                 text: '地区柱状图',
+                 subtext: '',
+                 x:'left'
+             },
+             color: ['#c23531'],
+             tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+             },
+             grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true                             
+             },
+             xAxis : [
+                {
+                    type : 'category',
+                    data:['北京','\n天津','河北','\n山西','内蒙古','\n辽宁','吉林','\n黑龙江','上海','\n江苏','浙江','\n安徽','福建','\n江西','山东','\n河南','湖北','\n湖南','广东','\n广西','海南','\n重庆','四川','\n贵州','云南','\n西藏','陕西','\n甘肃','青海','\n宁夏','新疆','\n香港','澳门','\n台湾'],
+                    axisLabel:{  
+                        interval:0  //坐标轴刻度标签的显示间隔(在类目轴中有效哦)，默认会采用标签不重叠的方式显示标签（也就是默认会将部分文字显示不全）可以设置为0强制显示所有标签，如果设置为1，表示隔一个标签显示一个标签
+                        // rotate:30,//倾斜度 -90 至 90 默认为0  
+                        },  
+
+                    axisTick: {
+                      alignWithLabel: true
+                    }
+                }
+             ],
+             yAxis : [
+                {
+                    type : 'value'
+                }
+             ],
+             series : [
+                {
+                    name:'人数',
+                    type:'bar',
+                    barWidth: '50%',
+                    data:[area0[0],area0[1], area0[2], area0[3],area0[4], area0[5], area0[6],area0[7], area0[8], area0[9], area0[10], area0[11], area0[12], area0[13], area0[14], area0[15],
+                        area0[16], area0[17],area0[18], area0[19], area0[20], area0[21], area0[22], area0[23], area0[24],area0[25], area0[26], area0[27], area0[28],area0[29], area0[30],area0[31],area0[32], area0[33] ]
+                }
+             ]
+        };
+
+        myChart6.setOption(option);
+      };
+      function  area1(){
+        //7地区1柱状      
+        var myChart7= echarts.init(document.getElementById('area1'));
+
+        option = {
+             title : {
+                 text: '地区柱状图',
+                 subtext: '',
+                 x:'left'
+             },
+             color: ['#c23531'],
+             tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+             },
+             grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true                             
+             },
+             xAxis : [
+                {
+                    type : 'category',
+                    data:['北京','\n天津','河北','\n山西','内蒙古','\n辽宁','吉林','\n黑龙江','上海','\n江苏','浙江','\n安徽','福建','\n江西','山东','\n河南','湖北','\n湖南','广东','\n广西','海南','\n重庆','四川','\n贵州','云南','\n西藏','陕西','\n甘肃','青海','\n宁夏','新疆','\n香港','澳门','\n台湾'],
+                    axisLabel:{  
+                        interval:0  //坐标轴刻度标签的显示间隔(在类目轴中有效哦)，默认会采用标签不重叠的方式显示标签（也就是默认会将部分文字显示不全）可以设置为0强制显示所有标签，如果设置为1，表示隔一个标签显示一个标签
+                        // rotate:30,//倾斜度 -90 至 90 默认为0  
+                        },  
+
+                    axisTick: {
+                      alignWithLabel: true
+                    }
+                }
+             ],
+             yAxis : [
+                {
+                    type : 'value'
+                }
+             ],
+             series : [
+                {
+                    name:'人数',
+                    type:'bar',
+                    barWidth: '50%',
+                    data:[area9[0],area9[1], area9[2], area9[3],area9[4], area9[5], area9[6],area9[7], area9[8], area9[9], area9[10], area9[11], area9[12], area9[13], area9[14], area9[15],
+                        area9[16], area9[17],area9[18], area9[19], area9[20], area9[21], area9[22], area9[23], area9[24],area9[25], area9[26], area9[27], area9[28],area9[29], area9[30],area9[31],area9[32], area9[33] ]
+               }]
+             };
+     myChart7.setOption(option);
+   };
+    </script>   
+</body>
+</html>

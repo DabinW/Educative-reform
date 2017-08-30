@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	 <!-- <meta http-equiv="content-type" content="text/html;charset=utf-8" /> -->
+    <title>课题进度分类报表</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />  
+   <link rel="stylesheet" type="text/css" href="js/lib/bootstrap3.2.0/css/bootstrap.css" />
+    <link rel="stylesheet" href="css/font-awesome-4.2.0/css/font-awesome.min.css" type="text/css">
+    <script type="text/javascript" src="js/lib/jquery-1.9.1.js"></script>
+   
+</head>
+<body ng-app="AssertIndexApp">
+<div class="all"  style="margin-left:200px;margin-right:200px;">
+  <div  class="col-md-12">
+        <div class="bs-callout bs-callout-default" style="margin-top:20px;margin-bottom:20px;">
+            <h3><strong><center>课题进度分类报表</center></strong></h3>
+        </div>
+	
+<div ng-controller="peoplecount">
+  <select id="selector" onchange="getdata()" style="width: 200px;;height: 33px;">
+           <option>--请选择下列进度--</option>
+     <option value="0">申报</option>
+     <option value="1">已立项</option>
+     <option value="2">中期检查</option>
+     <option value="3">结题审核</option>
+     <option value="4">已完成</option>                                 
+  </select>
+</div>
+<div id="table" style="margin-top:10px;">
+<table class="table table-bordered" id="mytable" >
+	<thead>
+    <tr>
+      <th>编号</th>
+      <th>课题名称</th>
+      <th>承担单位</th>
+      <th>课题负责人</th>
+      <th>联系方式</th>
+      <th>经费额度（万元）</th>
+      <th>立项时间</th>
+      <th>完成时间</th>
+      <th>研究成果</th>
+      <th>项目评价</th>
+      <th>经手人</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div>
+</div>
+<script type="text/javascript">
+ 
+	var getdata = function () {
+		$('#mytable tbody tr').remove();
+    var sce = $("#selector").find("option:selected").text();
+    console.log(sce);
+		$.ajax({
+			type:"POST",
+			url:"api/1.0/edu/system/account/getByschedule1",
+			data:sce,
+			dataType:"json",
+			async:true,
+			success:function(data){
+          var arr = data.contents;
+          if(arr !=null){
+
+					for (var i=0; i<arr.length; i++) { 
+
+						var id=arr[i].id||'无';
+						var coursename=arr[i].coursename||'无';
+						var unit=arr[i].unit||'无';
+						var person=arr[i].person||'无';
+						var tel=arr[i].tel||'无';
+						var funding=arr[i].funding||'无';
+						var starttime=arr[i].starttime||'无';
+						var finish_time=arr[i].finish_time||'无';
+						var results=arr[i].results||'无';
+						var evaluation=arr[i].evaluation||'无';
+						var brokerage=arr[i].brokerage||'无';
+						var remark=arr[i].remark||'无';
+						$('#mytable tbody').append("<tr><td>"+id+"</td><td>"+coursename+"</td><td>"+unit+"</td><td>"+person+"</td><td>"+tel+"</td><td>"+funding+"</td><td>"+starttime+"</td><td>"+finish_time+"</td><td>"+results+"</td><td>"+evaluation+"</td><td>"+brokerage+"</td><td>"+remark+"</td></tr>")
+				}
+			  }//if
+        else{
+          alert("不存在该进度的课题");
+        }
+		},
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				console.log(XMLHttpRequest);
+        console.log(textStatus);
+        console.log(errorThrown);
+
+			}
+		})
+	};
+</script>
+</body>
+</html>

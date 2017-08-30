@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>用户管理</title>
+</head>
+
+<body  ng-app="AssertIndexApp">
+<div ng-controller="SysUserAdminController">
+
+    <div  class="col-md-12">
+        <div class="bs-callout bs-callout-danger ">
+            <strong>角色管理</strong><small>--角色管理、角色分配模块管理、用户角色分配管理。</small>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="col-md-2 ">角色信息列表</span>
+                <div ng-show="ShowButtonGroup" class="btn-group col-md-10" style="float: none;">
+                    <button class="btn btn-success btn-xs " ng-show="!(selectedNode.data==null)" ng-click="ShowAddRole()" title="勾选后进行批量操作">增加角色</button>
+                    <button class="btn btn-primary btn-xs " ng-show="!(selectedNode.data==null)" ng-click="ModifyRole()" title="勾选后进行批量操作">修改角色</button>
+                    <button class="btn btn-danger btn-xs " ng-show="!(selectedNode.data==null)" ng-click="DelRole()" title="勾选后进行批量操作">删除角色</button>
+                    <button class="btn btn-info btn-xs " ng-show="!(selectedNode.data==null)&&NowSelected.IsChildrenRole" ng-click="RoleAssignmentModule()" title="勾选后进行批量操作">角色分配模块</button>
+                    <button class="btn btn-warning btn-xs " ng-show="!(selectedNode.data==null)&&NowSelected.IsChildrenRole" ng-click="UserAssignmentRole()" title="勾选后进行批量操作">用户角色分配</button>
+                </div>
+                <button ng-show="ShowUserAssignmentRole"  style="margin-left: 68%" class="btn btn-success btn-xs"  ng-click="SubmitUserAssignmentRole()">确认分配角色</button>
+                <button ng-show="ShowUserAssignmentRole"  style="margin-left: 5px" class="btn btn-default btn-xs"  ng-click="Default()">取消</button>
+                <button ng-show="RoleAssignmentModuleButton" style="margin-left: 68%" class="btn btn-xs btn-success" ng-click="SubmitRoleAssignmentModule()">确认分配模块</button>
+                <button ng-show="RoleAssignmentModuleButton"  style="margin-left: 5px" class="btn btn-default btn-xs"  ng-click="Default()">取消</button>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <treecontrol class="tree-classic col-md-3"
+                                 tree-model="RoleTreeData" expanded-nodes="expandedRoleNodes"
+                                 options="RoleTreeOptions" on-selection="RoleSelected(node)">{{node.data}}
+                    </treecontrol>
+                    <div ng-show="ShowNowSelected"  class="col-md-6 col-md-offset-3 ShowNowSelected" style="font-size: 12px;">
+                        <p><i class="fw fa fa-user"></i>角色名称：{{NowSelected.RoleName}}</p>
+                        <p><i class="fw fa fa-angle-double-right"></i>角色ID：{{NowSelected.RoleID}}</p>
+                        <p><i class="fw fa fa-arrow-circle-o-down"></i>父角色ID：{{NowSelected.RoleParentID}}</p>
+                        <p><i class="fw fa fa-leaf"></i>叶子节点：{{NowSelected.IsChildrenRole ?'是':'不是'}}</p>
+                        <p><i class="fw fa fa-file-text-o"></i>角色说明：{{NowSelected.RoleFunctionNotes}}</p>
+                    </div>
+                    <div class="col-md-5 col-md-offset-3" ng-show="ShowChangeRole">
+                        <div  ng-show="ButtonShow=='Modify'"  class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">父角色ID</i></span>
+                            <input type="number" class="form-control " ng-model="RoleInfo.RoleParentID"   placeholder="父角色ID..." title="父角色ID" >
+                        </div>
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">角色名称</i></span>
+                            <input  type="text" class="form-control " ng-model="RoleInfo.RoleName"   placeholder="角色名称..." title="角色名称" >
+                        </div>
+
+
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">角色说明</i></span>
+                            <input  type="text" class="form-control " ng-model="RoleInfo.RoleFunctionNotes"  placeholder="角色说明..." title="角色说明" >
+                        </div>
+                        <div  ng-show="ButtonShow=='Modify'"  class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">优先级</i></span>
+                            <input type="number" class="form-control " ng-model="RoleInfo.RolePriority"   placeholder="优先级..." title="优先级" >
+                        </div>
+                        <div class="input-group col-md-10" style="margin-bottom: 5px;">
+                            <span class="input-group-addon"><i class="fa">是否为叶子节点</i></span>
+                            <select name="cgfs"  ng-required="true" ng-model="RoleInfo.IsChildrenRole" title="是否为叶子节点"  class="form-control"
+                                    ng-options="o.v as o.n for o in [{ n: '--选择是否为叶子节点--', v: '' }, { n: '是', v: true },{ n: '否', v: false }]">
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-md-offset-7">
+                            <button ng-show="ButtonShow=='Add'" ng-click="AddRoleInfo()" class="btn btn-success">添加</button>
+                            <button ng-show="ButtonShow=='Modify'" ng-click="ModifyRoleInfo()" class="btn btn-primary">修改</button>
+                            <button class="btn btn-default" ng-click="Cancel()">取消</button>
+                        </div>
+
+                    </div>
+                    <treecontrol ng-show="ShowRoleAssignmentModule"
+                                 class="tree-classic col-md-5 col-md-offset-2"
+                                 tree-model="ModuleTreeData" expanded-nodes="expandedModuleNodes"
+                                 options="ModuleTreeOptions">
+                        <input type="checkbox" data-indeterminate-checkbox data-child-list="node.children" data-property="hased" data-ng-model="node.hased">{{node.data}}
+                    </treecontrol>
+
+                    <div class="col-md-9" ng-show="ShowUserAssignmentRole" style="margin-top: -25px; font-size: 10px;">
+                        <table datatable="" id="RoleUserTable" dt-options="NowRoleUser_dtOptions" dt-columns="NowRoleUser_dtColumn" class="row-border hover"></table>
+                        <!--<table datatable="ng" id="ng" dt-options="NowRoleList_dtOptions" dt-column-defs="NowRoleList_dtColumnDefs" class="row-border hover">-->
+                        <!--<thead>-->
+                        <!--<tr>-->
+                        <!--<th>-->
+                        <!--<input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox"  value=""/>-->
+                        <!--</th>-->
+                        <!--<th>#</th>-->
+                        <!--<th>姓名</th>-->
+                        <!--<th>工号</th>-->
+                        <!--<th>单位名称</th>-->
+                        <!--<th>角色</th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                        <!--<tr ng-repeat="m in NowRoleList">-->
+                        <!--<td><input type="checkbox" ng-model="m.iftherole"/></td>-->
+                        <!--<td>{{$index+1}}</td>-->
+                        <!--<td>{{m.username}}</td>-->
+                        <!--<td>{{m.userid}}</td>-->
+                        <!--<td>{{m.depname}}</td>-->
+                        <!--<td>{{m.iftherole ? "是":"否"}}</td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                        <!--</table>-->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

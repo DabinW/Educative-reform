@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>课题进度分类报表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body ng-app="AssertIndexApp">
+  <div  class="col-md-12">
+        <div class="bs-callout bs-callout-default">
+            <strong>课题进度分类报表</strong>
+        </div>
+	<table class="table table-bordered" id="mytable" >
+<div ng-controller="peoplecount">
+  <select id="selector" onchange="getdata()">
+     <option value="0">申报</option>
+     <option value="1">已立项</option>
+     <option value="2">中期检查</option>
+     <option value="3">结题审核</option>
+     <option value="4">已完成</option>                                 
+  </select>
+<div>
+	<thead>
+    <tr>
+      <th>编号</th>
+      <th>课题名称</th>
+      <th>承担单位</th>
+      <th>课题负责人</th>
+      <th>联系方式</th>
+      <th>经费额度（万元）</th>
+      <th>立项时间</th>
+      <th>完成时间</th>
+      <th>研究成果</th>
+      <th>项目评价</th>
+      <th>经手人</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<script type="text/javascript">
+
+var city = {
+	"city":"上海"
+}
+
+	var getdata = function () {
+		$('#mytable tbody tr').remove();
+		$.ajax({
+			type:"POST",
+			url:"http://59.68.29.125:18082/api/1.0/ll/system/account/getReformMesBycity",
+			data:city,
+			datatype:"json",
+			async:true,
+			success:function(data){
+				alert(success);
+				if (data.code=='N01') {
+					var arr = data.contents.list;
+					for (var i=0; i<arr.length; i++) { 
+						var id=arr[i].id;
+						var coursename=arr[i].coursename;
+						var unit=arr[i].unit;
+						var person=arr[i].person;
+						var tel=arr[i].tel;
+						var funding=arr[i].funding;
+						var starttime=arr[i].starttime;
+						var finish_time=arr[i].finish_time;
+						var results=arr[i].results;
+						var evaluation=arr[i].evaluation;
+						var brokerage=arr[i].brokerage;
+						var remark=arr[i].remark;
+						$('#mytable tbody').append("<tr><td>"+id+"</td><td>"+coursename+"</td><td>"+unit+"</td><td>"+person+"</td><td>"+tel+"</td><td>"+funding+"</td><td>"+starttime+"</td><td>"+finish_time+"</td><td>"+results+"</td><td>"+evaluation+"</td><td>"+brokerage+"</td><td>"+remark+"</td></tr>")
+
+						
+				}
+			}
+		},
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				console.log(XMLHttpRequest);
+        console.log(textStatus);
+        console.log(errorThrown);
+
+			}
+		})
+
+	};
+
+
+</script>
+</body>
+</html>
